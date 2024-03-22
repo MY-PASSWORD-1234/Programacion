@@ -3,10 +3,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
-
-import javax.xml.crypto.Data;
 
 public class vuelos {
     static Scanner sc = new Scanner(System.in);
@@ -26,9 +23,11 @@ public class vuelos {
                         "6. Salir \n" +
                         "--------------------- \n" +
                         "OPCION ELEGIDA: ");
+                      
         int n;
         n = sc.nextInt();
         sc.nextLine();
+        System.out.println();
         while (n != 6) {
 
             switch (n) {
@@ -115,7 +114,7 @@ public class vuelos {
 
                         System.out.println("¿Cuál es el ID de Vuelo que quieres reservar?");
                         int codigov = sc.nextInt();
-                        st.setInt(2, codigov);
+                        st.setInt(2, codigov); System.out.println();
 
                         System.out.println("¿Qué asiento quieres reservar?");
                         int asiento = sc.nextInt();
@@ -129,6 +128,11 @@ public class vuelos {
 
                     break;
                 case 4:
+                try {
+                    
+                } catch (Exception e) {
+                    e.getMessage();
+                }
 
                     break;
                 case 5:
@@ -147,8 +151,10 @@ public class vuelos {
                             "6. Salir \n" +
                             "--------------------- \n" +
                             "OPCION ELEGIDA: ");
+                            System.out.println();
             n = sc.nextInt();
             sc.nextLine();
+            System.out.println();
         }
     }
 
