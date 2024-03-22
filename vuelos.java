@@ -131,7 +131,7 @@ public class vuelos {
                 try {
                     
                 } catch (Exception e) {
-                    e.getMessage(); //mec
+                    e.getMessage(); //mec 2
                 }
 
                     break;
