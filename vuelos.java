@@ -114,7 +114,7 @@ public class vuelos {
 
                         System.out.println("¿Cuál es el ID de Vuelo que quieres reservar?");
                         int codigov = sc.nextInt();
-                        st.setInt(2, codigov); System.out.println();
+                        st.setInt(2, codigov); 
 
                         System.out.println("¿Qué asiento quieres reservar?");
                         int asiento = sc.nextInt();
@@ -129,13 +129,75 @@ public class vuelos {
                     break;
                 case 4:
                 try {
-                    
+                    System.out.print("Que id de reserva tienes: ");
+                    int idres = sc.nextInt();
+                    System.out.println("----------------");
+                    st = con.prepareStatement("SELECT id_reserva,id_vuelo,id_pasajero,n_asiento FROM reservaVuelos.Vuelos_Pasajeros where id_reserva = '"+idres+"'");
+                    ResultSet ps = st.executeQuery();
+
+                    while (ps.next()) {
+                        int codigo = ps.getInt("id_reserva");
+                        int origen = ps.getInt("id_vuelo");
+                        int destino = ps.getInt("id_pasajero");
+                        int fecha = ps.getInt("n_asiento");
+                        System.out.println("ID RESERVA: " + codigo + "\n" +
+                                "ID DE VUELO: " + origen + "\n" +
+                                "ID DE PASAJERO: " + destino + "\n" +
+                                "NUMERO DE ASIENTO: " + fecha + "\n" );
+                    }
+
+                    ps.close();
+                    st.close();
+                    System.out.println("Por que asiento desea cambiarlo: ");
+                    int asiento = sc.nextInt();
+                    st = con.prepareStatement(
+                                "UPDATE reservaVuelos.Vuelos_Pasajeros SET n_asiento= ? where id_reserva= ?");
+                    st.setInt(1, asiento);
+                    st.setInt(2, idres);
+                    int r = st.executeUpdate();
+                    if (r > 0){
+                        System.out.println("Se ha cambiado con exito !!!");
+
+                    }else{
+                        System.out.println("No se ha podido cambiar, ese asiento esta Ocupado!!!");
+                    }
+
                 } catch (Exception e) {
                     e.getMessage(); 
                 }
 
                     break;
                 case 5:
+                System.out.print("Que id de reserva tienes: ");
+                    int idres = sc.nextInt();sc.nextLine();
+                    System.out.println("----------------");
+                    st = con.prepareStatement("SELECT id_reserva,id_vuelo,id_pasajero,n_asiento FROM reservaVuelos.Vuelos_Pasajeros where id_reserva = '"+idres+"'");
+                    ResultSet ps = st.executeQuery();
+
+                    while (ps.next()) {
+                        int codigo = ps.getInt("id_reserva");
+                        int origen = ps.getInt("id_vuelo");
+                        int destino = ps.getInt("id_pasajero");
+                        int fecha = ps.getInt("n_asiento");
+                        System.out.println("ID RESERVA: " + codigo + "\n" +
+                                "ID DE VUELO: " + origen + "\n" +
+                                "ID DE PASAJERO: " + destino + "\n" +
+                                "NUMERO DE ASIENTO: " + fecha + "\n" );
+                    }
+
+                    ps.close();
+                    st.close();
+                    System.out.print("Deseas ELIMINAR la reserva ?  (Si/No): ");
+                    String eliminar = sc.nextLine();
+                    if (eliminar.equals("Si")) {
+                        st = con.prepareStatement(
+                            "DELETE FROM reservaVuelos.Vuelos_Pasajeros where id_reserva = ?");
+                        st.setInt(1, idres);
+                        int r = st.executeUpdate();
+                        System.out.println("--------------------");
+                        System.out.println("Tu reserva a sido ELIMINADA");
+                        System.out.println("/n");
+                    }
 
                     break;
 
