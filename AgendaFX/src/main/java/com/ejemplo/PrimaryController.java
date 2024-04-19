@@ -6,11 +6,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
 public class PrimaryController {
@@ -140,11 +143,36 @@ public class PrimaryController {
 
     @FXML
     void BotonParaBorrar(ActionEvent event) {
+        Connection con = null;
+        PreparedStatement st = null;
+        ResultSet ps = null;
+
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://localhost:33006/Agenda", "root", "root");
+
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Eliminar Registro");
+            alert.setHeaderText("Eliminar");
+            alert.setContentText("¿Estas seguro de que quieres eliminar este Empleado?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                st = con.prepareStatement("DELETE FROM Agenda.Empleados where IdEmpleados = ?");
+                st.setInt(1, Integer.parseInt(Idempleado.getText()));
+                int r = st.executeUpdate();
+                empleados.remove(empleados.get(Integer.parseInt(Idempleado.getText()) - 1));
+            } else {
+
+            }
+
+        } catch (Exception e) {
+            e.getMessage();
+        }
 
     }
 
     @FXML
     void BotonParaInsertar(ActionEvent event) {
+        //esto solo actualiza a los campos a vacios y los habilita
         Idempleado.setEditable(true);
         Idempleado.setDisable(false);
         Nombre.setDisable(false);
@@ -164,39 +192,69 @@ public class PrimaryController {
 
     @FXML
     void BotonParaGuardar(ActionEvent event) {
-
+        // este boton es el que hace las modificacion y las inserciones
+        Connection con = null;
+        PreparedStatement st = null;
+        ResultSet ps = null;
         try {
 
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:33006/Agenda", "root", "root");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:33006/Agenda", "root", "root");
 
-            PreparedStatement st = con.prepareStatement("Select * from Agenda.Empleados where IdEmpleado = ?");
+            st = con.prepareStatement("Select * from Agenda.Empleados where Agenda.Empleados.IdEmpleados = ?");
             st.setInt(1, Integer.parseInt(Idempleado.getText()));
+            ps = st.executeQuery();
+            int r;
 
-            Integer r = st.executeUpdate();
-            if (r == null) {
-                st = con.prepareStatement(
-                        "INSERT INTO Agenda.Empleados (IdEmpleados, Nombre, Apellidos, Telefono, Fecha_Nacimiento, Cargo) VALUES (?,?,?,?, ?, ?)");
-                        
-                        r = st.executeUpdate();
-            } else {
+            if (ps.next()) {
                 st = con.prepareStatement(
                         "Update Agenda.Empleados Set Nombre = ?, Apellidos = ? , Telefono = ? , Fecha_Nacimiento = ? , Cargo = ? where IdEmpleados = ?");
 
                 empleados.get(Integer.parseInt(Idempleado.getText()) - 1).setNombre(Nombre.getText());
                 empleados.get(Integer.parseInt(Idempleado.getText()) - 1).setApellidos(Apellidos.getText());
-                empleados.get(Integer.parseInt(Idempleado.getText()) - 1).setTelefono(Integer.parseInt(Telefono.getText()));
-                empleados.get(Integer.parseInt(Idempleado.getText()) - 1).setFecha_nacimiento(FechaNacimiento.getText());
+                empleados.get(Integer.parseInt(Idempleado.getText()) - 1)
+                        .setTelefono(Integer.parseInt(Telefono.getText()));
+                empleados.get(Integer.parseInt(Idempleado.getText()) - 1)
+                        .setFecha_nacimiento(FechaNacimiento.getText());
                 empleados.get(Integer.parseInt(Idempleado.getText()) - 1).setCargo(Cargo.getText());
 
-                st.setInt(6, empleados.get(Integer.parseInt(Idempleado.getText()) - 1).getIdEmpleado());
-                st.setString(1, empleados.get(Integer.parseInt(Idempleado.getText()) - 1).getNombre());
-                st.setString(2, empleados.get(Integer.parseInt(Idempleado.getText()) - 1).getApellidos());
-                st.setInt(3, empleados.get(Integer.parseInt(Idempleado.getText()) - 1).getTelefono());
-                st.setString(4, empleados.get(Integer.parseInt(Idempleado.getText()) - 1).getFecha_nacimiento());
-                st.setString(5, empleados.get(Integer.parseInt(Idempleado.getText()) - 1).getCargo());
+                st.setInt(6, empleados.get(Integer.parseInt(Idempleado.getText()) -
+                        1).getIdEmpleado());
+                st.setString(1, empleados.get(Integer.parseInt(Idempleado.getText()) -
+                        1).getNombre());
+                st.setString(2, empleados.get(Integer.parseInt(Idempleado.getText()) -
+                        1).getApellidos());
+                st.setInt(3, empleados.get(Integer.parseInt(Idempleado.getText()) -
+                        1).getTelefono());
+                st.setString(4, empleados.get(Integer.parseInt(Idempleado.getText()) -
+                        1).getFecha_nacimiento());
+                st.setString(5, empleados.get(Integer.parseInt(Idempleado.getText()) -
+                        1).getCargo());
 
                 r = st.executeUpdate();
 
+            } else {
+
+                st = con.prepareStatement(
+                        "INSERT INTO Agenda.Empleados (IdEmpleados, Nombre, Apellidos, Telefono, Fecha_Nacimiento, Cargo) VALUES (?,?,?,?, ?, ?)");
+
+                st.setInt(1, Integer.parseInt(Idempleado.getText()));
+                st.setString(2, Nombre.getText());
+                st.setString(3, Apellidos.getText());
+                st.setInt(4, Integer.parseInt(Telefono.getText()));
+                st.setString(5, FechaNacimiento.getText());
+                st.setString(6, Cargo.getText());
+
+                r = st.executeUpdate();
+
+                int cod = Integer.parseInt(Idempleado.getText()) - 1;
+                String nom = Nombre.getText();
+                String apell = Apellidos.getText();
+                int tel = Integer.parseInt(Telefono.getText());
+                String fech = FechaNacimiento.getText();
+                String carg = Cargo.getText();
+
+                Empleados emp = new Empleados(cod, nom, apell, tel, fech, carg);
+                empleados.add(emp);
             }
 
         } catch (Exception e) {
@@ -207,6 +265,7 @@ public class PrimaryController {
 
     @FXML
     void BotonParaModifica(ActionEvent event) {
+        //esto solo habilita los campos para poder modificarlos menos el id porque no tiene que cambiar
         Nombre.setDisable(false);
         Apellidos.setDisable(false);
         Telefono.setDisable(false);
