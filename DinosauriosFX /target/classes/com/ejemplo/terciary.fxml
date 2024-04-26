@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="826.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ejemplo.TerciaryController">
+   <children>
+      <ImageView fitHeight="70.0" fitWidth="74.0" layoutX="189.0" layoutY="444.0" onMouseClicked="#buscarDino">
+         <image>
+            <Image url="@img/64673.png" />
+         </image>
+      </ImageView>
+      <ChoiceBox fx:id="tboton" layoutX="151.0" layoutY="107.0" onMouseClicked="#mostrarTamañoBoton" prefWidth="150.0" />
+      <ChoiceBox fx:id="aboton" layoutX="151.0" layoutY="204.0" onMouseClicked="#mostrarAlimentacionBoton" prefWidth="150.0" />
+      <ChoiceBox fx:id="tipoborton" layoutX="151.0" layoutY="320.0" onMouseClicked="#mostrarTipoBoton" prefWidth="150.0" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="52.0" layoutY="111.0" text="Tamaño" />
+      <Label layoutX="52.0" layoutY="208.0" text="Alimentacion" />
+      <Label layoutX="52.0" layoutY="324.0" text="Tipo" />
+      <TableView fx:id="tabla" layoutX="333.0" onSort="#mostrarDatos" prefHeight="564.0" prefWidth="520.0">
+        <columns>
+          <TableColumn fx:id="nombre" onEditStart="#nombreTabla" prefWidth="155.0" text="NOMBRE" />
+          <TableColumn fx:id="tamanio" onEditStart="#tamanioTabla" prefWidth="106.0" text="TAMAÑO" />
+            <TableColumn fx:id="alimentacio" onEditStart="#alimentacionTabla" prefWidth="155.0" text="ALIMENTACION" />
+            <TableColumn fx:id="tipo" onEditStart="#tipoTabla" prefWidth="94.0" text="TIPO" />
+        </columns>
+      </TableView>
+      <Button fx:id="volver" layoutX="41.0" layoutY="24.0" mnemonicParsing="false" onAction="#vol" text="&lt;--" />
+   </children>
+</AnchorPane>
