@@ -12,6 +12,8 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
@@ -58,7 +60,7 @@ public class SecondaryController {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:33006/JurassicPark", "root", "root");
             st = con.prepareStatement("SELECT id_dino from JurassicPark.Dinosaurio where nombre = ?");
             st.setString(1, dinos.getSelectionModel().getSelectedItem());
-            psD= st.executeQuery();
+            psD = st.executeQuery();
             psD.next();
             int nd = psD.getInt("id_dino");
             st = con.prepareStatement("SELECT id_zona from JurassicPark.Zona where ubicacion = ?");
@@ -68,16 +70,27 @@ public class SecondaryController {
             int nz = psZ.getInt("id_zona");
             st = con.prepareStatement(
                     "INSERT INTO JurassicPark.Atraccion (id_zona, id_dino, nombre, capacidad, edad_minima) VALUES (?,?,?,?,?)");
-            
+
             st.setString(3, nombre.getText());
             st.setInt(4, Integer.parseInt(capacidad.getText()));
             st.setInt(5, Integer.parseInt(edad.getText()));
             st.setInt(2, nd);
-            st.setInt(1,  nz);
+            st.setInt(1, nz);
             int r = st.executeUpdate();
-            
+            Alert alert = new Alert(AlertType.INFORMATION); 
+            alert.setTitle("Creacion Correcta");
+            alert.setHeaderText(""); 
+            alert.setContentText("Se ha creado la atraccion");
+            alert.showAndWait();
+            nombre.setText("");
+            capacidad.setText("");
+            edad.setText("");
+            dinos.setValue(null);
+            zona.setValue(null);
+
+
         } catch (Exception e) {
-           System.out.println(e.getMessage()); 
+            System.out.println(e.getMessage());
         }
     }
 
