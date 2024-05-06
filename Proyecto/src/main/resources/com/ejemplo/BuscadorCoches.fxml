@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="1121.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ejemplo.CO_BuscadorCoches">
+   <children>
+      <ImageView fitHeight="548.0" fitWidth="351.0">
+         <image>
+            <Image url="@./img/Color_negro.png" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="25.0" prefHeight="44.0" prefWidth="349.0" text="SuperCoches" textFill="#dae413">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <TextField fx:id="buscador" layoutX="21.0" layoutY="96.0" prefHeight="31.0" prefWidth="271.0" promptText="Busca...." />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="31.0" layoutX="293.0" layoutY="96.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
+      <ImageView fitHeight="24.0" fitWidth="22.0" layoutX="301.0" layoutY="100.0" onMouseClicked="#buscarLupa">
+         <image>
+            <Image url="@./img/64673.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="21.0" layoutY="147.0" mnemonicParsing="false" onAction="#mostrarFiltros" text="Filtrar.." textFill="#ff0202" />
+      <Button layoutX="213.0" layoutY="147.0" mnemonicParsing="false" text="Ordenar por..." textFill="#ff0202" />
+      <CheckBox fx:id="puertas3" layoutX="21.0" layoutY="202.0" mnemonicParsing="false" text="3" textFill="WHITE" />
+      <CheckBox fx:id="puertas5" layoutX="21.0" layoutY="227.0" mnemonicParsing="false" text="5" textFill="WHITE" />
+      <Label fx:id="puertas" layoutX="21.0" layoutY="181.0" text="Puertas" textFill="WHITE" />
+      <CheckBox fx:id="VeinteKilom" layoutX="21.0" layoutY="286.0" mnemonicParsing="false" text="25.000KM - 50.000KM" textFill="WHITE" />
+      <CheckBox fx:id="CicuentaKilometros" layoutX="21.0" layoutY="311.0" mnemonicParsing="false" text="50.000KM - 100.000KM" textFill="WHITE" />
+      <Label fx:id="kilometros" layoutX="21.0" layoutY="265.0" text="Kilometraje" textFill="WHITE" />
+      <CheckBox fx:id="masKilometros" layoutX="21.0" layoutY="337.0" mnemonicParsing="false" text="+ 100.000KM" textFill="WHITE" />
+      <Label fx:id="precio" layoutX="21.0" layoutY="370.0" text="Precio" textFill="WHITE" />
+      <Label fx:id="marca" layoutX="21.0" layoutY="443.0" text="Marca" textFill="WHITE" />
+      <ChoiceBox fx:id="mostrarMarca" layoutX="21.0" layoutY="467.0" prefWidth="150.0" />
+      <Label fx:id="modelo" layoutX="187.0" layoutY="444.0" text="Modelo" textFill="WHITE" />
+      <ChoiceBox fx:id="mostrarModelo" layoutX="187.0" layoutY="467.0" prefWidth="150.0" />
+      <TextArea layoutX="439.0" layoutY="370.0" prefHeight="163.0" prefWidth="565.0" text="aqui saldrian lo vehiculos que has filtrado segun los criterios del cliente con :&#10;una foto&#10;una pequeña descripcion&#10;puertas&#10;kilometraje&#10;marca y modelo&#10;precio &#10;estado del vehiculo&#10;y si no esta reservado la opcion de poder darle a reservar " />
+      <Slider fx:id="barraPrecio" blockIncrement="1000.0" layoutX="22.0" layoutY="394.0" majorTickUnit="50000.0" max="500000.0" min="50000.0" minorTickCount="5" prefHeight="38.0" prefWidth="308.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="50000.0" />
+      <Label fx:id="combustible" layoutX="213.0" layoutY="188.0" text="Combustible" textFill="WHITE" />
+      <ChoiceBox fx:id="opcionesCombustible" layoutX="213.0" layoutY="215.0" prefHeight="24.0" prefWidth="110.0" />
+      <Button layoutX="1005.0" layoutY="13.0" mnemonicParsing="false" onAction="#cerrarSesion" prefHeight="24.0" prefWidth="110.0" style="-fx-background-color: red;" text="Cerrar Sesion" textFill="WHITE" />
+      <TableView layoutX="359.0" layoutY="47.0" prefHeight="308.0" prefWidth="756.0">
+        <columns>
+          <TableColumn minWidth="0.0" prefWidth="112.0" text="Marca" />
+          <TableColumn prefWidth="132.0" text="Modelo" />
+            <TableColumn prefWidth="67.0" text="Puertas" />
+            <TableColumn prefWidth="116.0" text="Combustible" />
+            <TableColumn prefWidth="131.0" text="Kilometros" />
+            <TableColumn prefWidth="107.0" text="Precio" />
+            <TableColumn prefWidth="90.0" text="Estado" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

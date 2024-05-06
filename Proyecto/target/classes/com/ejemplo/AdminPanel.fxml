@@ -24,6 +24,6 @@
       <Button layoutX="130.0" layoutY="215.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="115.0" text="Crear Nuevo" />
       <Button layoutX="130.0" layoutY="302.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="115.0" text="Editar" />
       <Button layoutX="130.0" layoutY="388.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="115.0" text="Perfiles" />
-      <Button layoutX="130.0" layoutY="475.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="115.0" text="Salir" textFill="RED" />
+      <Button layoutX="130.0" layoutY="475.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="115.0" style="-fx-background-color: red;" text="Cerrar Sesion" textFill="WHITE" />
    </children>
 </AnchorPane>
