@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ejemplo.Aplicacion">
+   <children>
+      <Label layoutX="6.0" layoutY="6.0" text="Nova">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <TextField fx:id="NombreCompleto" alignment="CENTER" disable="true" editable="false" layoutX="8.0" layoutY="71.0" prefHeight="35.0" prefWidth="375.0">
+         <font>
+            <Font size="24.0" />
+         </font></TextField>
+      <ChoiceBox fx:id="cuentas" layoutX="112.0" layoutY="166.0" onMouseClicked="#MostrarCuentas" prefWidth="150.0" />
+      <Label layoutX="145.0" layoutY="132.0" text="Cuentas">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button layoutX="134.0" layoutY="436.0" mnemonicParsing="false" onAction="#CerrarSesion" style="-fx-background-color: red;" text="Cerrar Sesion" textFill="WHITE" />
+      <Button layoutX="24.0" layoutY="235.0" mnemonicParsing="false" onAction="#SacarDinero" prefHeight="86.0" prefWidth="127.0" text="Sacar DInero" />
+      <Button layoutX="230.0" layoutY="235.0" mnemonicParsing="false" onAction="#PagarFactura" prefHeight="86.0" prefWidth="127.0" text="Pagar Factura" />
+   </children>
+</AnchorPane>
