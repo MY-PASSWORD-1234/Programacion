@@ -7,21 +7,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+
 
 public class CO_InicioSesion {
 
@@ -73,7 +67,7 @@ public class CO_InicioSesion {
                 App.setRoot("BuscadorCoches");
                 App.scene.getWindow().setWidth(1121);
                 App.scene.getWindow().setHeight(548);
-                resizeStage(1121, 548);
+             
 
             } else {
                 Alert alert = new Alert(AlertType.ERROR);
@@ -108,12 +102,5 @@ public class CO_InicioSesion {
 
     }
 
-    public void resizeStage(double width, double height) {
-        // Obtiene la referencia al Stage desde cualquier nodo en la escena
-        Stage stage = (Stage) BotonIniciarSesion.getScene().getWindow();
-        stage.setWidth(width);
-        stage.setHeight(height);
-
-    }
-
+   
 }
