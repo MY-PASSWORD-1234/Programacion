@@ -71,6 +71,8 @@ public class CO_InicioSesion {
                 alert.setContentText("Has iniciado con éxito. ¡Disfrute!");
                 alert.showAndWait();
                 App.setRoot("BuscadorCoches");
+                App.scene.getWindow().setWidth(1121);
+                App.scene.getWindow().setHeight(548);
                 resizeStage(1121, 548);
 
             } else {

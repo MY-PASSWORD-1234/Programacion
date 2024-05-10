@@ -39,7 +39,7 @@
       <CheckBox fx:id="puertas3" layoutX="21.0" layoutY="202.0" mnemonicParsing="false" text="3" textFill="WHITE" />
       <CheckBox fx:id="puertas5" layoutX="21.0" layoutY="227.0" mnemonicParsing="false" text="5" textFill="WHITE" />
       <Label fx:id="puertas" layoutX="21.0" layoutY="181.0" text="Puertas" textFill="WHITE" />
-      <CheckBox fx:id="VeinteKilom" layoutX="21.0" layoutY="286.0" mnemonicParsing="false" text="25.000KM - 50.000KM" textFill="WHITE" />
+      <CheckBox fx:id="VeinteKilom" layoutX="21.0" layoutY="286.0" mnemonicParsing="false" text="- 50.000KM" textFill="WHITE" />
       <CheckBox fx:id="CicuentaKilometros" layoutX="21.0" layoutY="311.0" mnemonicParsing="false" text="50.000KM - 100.000KM" textFill="WHITE" />
       <Label fx:id="kilometros" layoutX="21.0" layoutY="265.0" text="Kilometraje" textFill="WHITE" />
       <CheckBox fx:id="masKilometros" layoutX="21.0" layoutY="337.0" mnemonicParsing="false" text="+ 100.000KM" textFill="WHITE" />
@@ -53,15 +53,15 @@
       <Label fx:id="combustible" layoutX="213.0" layoutY="188.0" text="Combustible" textFill="WHITE" />
       <ChoiceBox fx:id="opcionesCombustible" layoutX="213.0" layoutY="215.0" prefHeight="24.0" prefWidth="110.0" />
       <Button layoutX="1005.0" layoutY="13.0" mnemonicParsing="false" onAction="#cerrarSesion" prefHeight="24.0" prefWidth="110.0" style="-fx-background-color: red;" text="Cerrar Sesion" textFill="WHITE" />
-      <TableView layoutX="359.0" layoutY="47.0" prefHeight="308.0" prefWidth="756.0">
+      <TableView fx:id="tablaEntera" layoutX="359.0" layoutY="47.0" onMouseClicked="#abrirCocheTabla" prefHeight="308.0" prefWidth="756.0">
         <columns>
-          <TableColumn minWidth="0.0" prefWidth="112.0" text="Marca" />
-          <TableColumn prefWidth="132.0" text="Modelo" />
-            <TableColumn prefWidth="67.0" text="Puertas" />
-            <TableColumn prefWidth="116.0" text="Combustible" />
-            <TableColumn prefWidth="131.0" text="Kilometros" />
-            <TableColumn prefWidth="107.0" text="Precio" />
-            <TableColumn prefWidth="90.0" text="Estado" />
+          <TableColumn fx:id="marcaTabla" minWidth="0.0" prefWidth="112.0" text="Marca" />
+          <TableColumn fx:id="modeloTabla" prefWidth="132.0" text="Modelo" />
+            <TableColumn fx:id="puertaTabla" prefWidth="67.0" text="Puertas" />
+            <TableColumn fx:id="combustibleTabla" prefWidth="116.0" text="Combustible" />
+            <TableColumn fx:id="kilomTabla" prefWidth="131.0" text="Kilometros" />
+            <TableColumn fx:id="precioTabla" prefWidth="107.0" text="Precio" />
+            <TableColumn fx:id="estadoTabla" prefWidth="90.0" text="Estado" />
         </columns>
       </TableView>
    </children>

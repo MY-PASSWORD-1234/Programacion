@@ -31,6 +31,6 @@
       <TextField fx:id="insertarNombre" layoutX="99.0" layoutY="168.0" prefHeight="38.0" prefWidth="181.0" promptText="Nombre" />
       <PasswordField fx:id="insertarContrasenia" layoutX="99.0" layoutY="212.0" prefHeight="38.0" prefWidth="181.0" promptText="Contraseña" />
       <Label layoutX="22.0" layoutY="395.0" text="Si no estas registrado pulse aqui" textFill="WHITE" />
-      <Button layoutX="243.0" layoutY="391.0" mnemonicParsing="false" onAction="#irResgistrarUsuario" prefHeight="0.0" prefWidth="94.0" style="-fx-background-color: skyblue;" text="Registrar" AnchorPane.bottomAnchor="133.0" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="662.0" AnchorPane.topAnchor="391.0" />
+      <Button layoutX="241.0" layoutY="391.0" mnemonicParsing="false" onAction="#irResgistrarUsuario" prefHeight="0.0" prefWidth="94.0" style="-fx-background-color: skyblue;" text="Registrar" AnchorPane.bottomAnchor="133.0" AnchorPane.leftAnchor="241.0" AnchorPane.rightAnchor="664.0" AnchorPane.topAnchor="391.0" />
    </children>
 </AnchorPane>

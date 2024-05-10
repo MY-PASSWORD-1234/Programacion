@@ -36,11 +36,6 @@
             <Image url="@img/Color_negro.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="277.0" fitWidth="585.0" layoutX="381.0" layoutY="103.0">
-         <image>
-            <Image url="@img/2020-nissan-gt-r-nismo-review.png" />
-         </image>
-      </ImageView>
       <TextField editable="false" layoutX="192.0" layoutY="104.0" />
       <Label layoutX="15.0" layoutY="100.0" prefHeight="24.0" prefWidth="93.0" text="Marca" textFill="WHITE" />
       <TextField editable="false" layoutX="192.0" layoutY="142.0" />
