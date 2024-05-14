@@ -1,14 +1,17 @@
 package com.ejemplo;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -19,8 +22,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-public class CO_BuscadorCoches {
 
+public class CO_BuscadorCoches {
 
     @FXML
     private ResourceBundle resources;
@@ -61,25 +64,24 @@ public class CO_BuscadorCoches {
     @FXML
     private Label puertas;
     @FXML
-    private TableColumn<?, ?> combustibleTabla;
+    private TableColumn<Coche, String> combustibleTabla;
 
     @FXML
-    private TableColumn<?, ?> estadoTabla;
+    private TableColumn<Coche, String> estadoTabla;
 
     @FXML
-    private TableColumn<?, ?> kilomTabla;
+    private TableColumn<Coche, String> kilomTabla;
     @FXML
-    private TableColumn<?, ?> marcaTabla;
+    private TableColumn<Coche, String> marcaTabla;
     @FXML
-    private TableColumn<?, ?> modeloTabla;
+    private TableColumn<Coche, String> modeloTabla;
     @FXML
-    private TableColumn<?, ?> precioTabla;
+    private TableColumn<Coche, String> precioTabla;
 
     @FXML
-    private TableColumn<?, ?> puertaTabla;
+    private TableColumn<Coche, String> puertaTabla;
     @FXML
-    private TableView<?> tablaEntera;
-    
+    private TableView<Coche> tablaEntera;
 
     @FXML
     private CheckBox puertas3;
@@ -92,55 +94,76 @@ public class CO_BuscadorCoches {
     private Label marca;
     @FXML
     private Label modelo;
+
     @FXML
     void abrirCocheTabla(MouseEvent event) {
 
     }
+
     @FXML
-    void buscarLupa(MouseEvent event) {
+    void mostrarDatos(ActionEvent event) {
+
+    }
+    @FXML
+    void buscarLupa(ActionEvent event) {
+        ObservableList<Coche> coches = FXCollections.observableArrayList();
         try {
-             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:33006/SuperCoches", "root", "root");
-            PreparedStatement st = con.prepareStatement("SELECT Marca, Modelo , Puertas , Combustible, Kilometraje, Precio, Estado from SuperCoches.Coches where Puertas = ? and Combustible =? and  Kilometraje >  ? and Kilometraje <= ? and Precio <= ? and Marca = ? and Modelo = ? " );
-           
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:33006/SuperCoches", "root", "root");
+            PreparedStatement st = con.prepareStatement(
+                    "SELECT Marca, Modelo, Puertas, Combustible, Kilometraje, Precio, Estado FROM SuperCoches.Coches WHERE Puertas = ? AND Combustible = ? AND Kilometraje > ? AND Kilometraje <= ? AND Precio <= ? AND Marca = ? AND Modelo = ?");
+    
             int puertas = 0;
             if (puertas3.isSelected()) {
                 puertas = 3;
                 puertas5.setSelected(false);
-            }else{
+            } else {
                 puertas = 5;
                 puertas3.setSelected(false);
             }
-         
-           int kil1 = 0;
-           int kil2 = 0;
-           if (VeinteKilom.isSelected()) {
-            kil1 = 25000 ;
-            kil1 = 50000 ;
-            }else if (CicuentaKilometros.isSelected()) {
+    
+            int kil1 = 0;
+            int kil2 = 0;
+            if (VeinteKilom.isSelected()) {
+                kil1 = 0;
+                kil2 = 50000;
+            } else if (CicuentaKilometros.isSelected()) {
                 kil1 = 50000;
                 kil2 = 100000;
-            }else{
+            } else {
                 kil1 = 100000;
                 kil2 = 100000000;
             }
-
-
-
-
+    
             st.setInt(1, puertas);
             st.setString(2, opcionesCombustible.getSelectionModel().getSelectedItem());
             st.setInt(3, kil1);
             st.setInt(4, kil2);
             st.setDouble(5, barraPrecio.getValue());
-            st.setString(6,  mostrarMarca.getSelectionModel().getSelectedItem());
-            st.setString(7,  mostrarModelo.getSelectionModel().getSelectedItem());
+            st.setString(6, mostrarMarca.getSelectionModel().getSelectedItem());
+            st.setString(7, mostrarModelo.getSelectionModel().getSelectedItem());
+    
             ResultSet rs = st.executeQuery();
-
-
+            while (rs.next()) {
+                String marca = rs.getString("Marca");
+                String modelo = rs.getString("Modelo");
+                int puerta = rs.getInt("Puertas");
+                String comb = rs.getString("Combustible");
+                int precio = rs.getInt("Precio");
+                String estado = rs.getString("Estado");
+                int kilomet = rs.getInt("Kilometraje");
+    
+                Coche c = new Coche(marca, modelo, puerta, comb, kilomet, precio, estado);
+                coches.add(c);
+            }
+            tablaEntera.setItems(coches);
+  
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e.getMessage());
         }
     }
+    
+    
+    
 
     @FXML
     void cerrarSesion(ActionEvent event) throws IOException {
@@ -153,22 +176,27 @@ public class CO_BuscadorCoches {
     void mostrarFiltros(ActionEvent event) {
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:33006/SuperCoches", "root", "root");
-            PreparedStatement st = con.prepareStatement("SELECT distinct * from SuperCoches.Coches" );
+            PreparedStatement st = con.prepareStatement("SELECT distinct Marca from SuperCoches.Coches");
             ResultSet rs = st.executeQuery();
-            ArrayList <String> marcas = new ArrayList<>();
-            ArrayList <String> comb = new ArrayList<>();
+            ArrayList<String> marcas = new ArrayList<>();
+            ArrayList<String> comb = new ArrayList<>();
             while (rs.next()) {
-             String marca =    rs.getString("Marca");
-             String combustible  = rs.getString("Combustible");
+                String marca = rs.getString("Marca");
+
                 marcas.add(marca);
+
+            }
+            st = con.prepareStatement("SELECT distinct Combustible from SuperCoches.Coches");
+            rs = st.executeQuery();
+            while (rs.next()) {
+
+                String combustible = rs.getString("Combustible");
+
                 comb.add(combustible);
             }
+           
             mostrarMarca.setItems(FXCollections.observableArrayList(marcas));
             opcionesCombustible.setItems(FXCollections.observableArrayList(comb));
-
-
-
-
 
         } catch (Exception e) {
             // TODO: handle exception
@@ -191,7 +219,7 @@ public class CO_BuscadorCoches {
             marca.setOpacity(0);
             modelo.setOpacity(0);
 
-        }else{
+        } else {
             puertas.setOpacity(1.0);
             puertas3.setOpacity(1.0);
             puertas5.setOpacity(1.0);
@@ -208,12 +236,34 @@ public class CO_BuscadorCoches {
             marca.setOpacity(1.0);
             modelo.setOpacity(1.0);
         }
-      
-       
+
+    }
+    @FXML
+    void motrarModelos(MouseEvent event) {
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:33006/SuperCoches", "root", "root");
+            PreparedStatement st = con.prepareStatement("SELECT distinct Modelo from SuperCoches.Coches where Marca = ?");
+            st.setString(1, mostrarMarca.getSelectionModel().getSelectedItem());
+            ResultSet rs = st.executeQuery();
+          
+            ArrayList<String> modelos = new ArrayList<>();
+            while (rs.next()) {
+                String modelo = rs.getString("Modelo");
+
+                modelos.add(modelo);
+
+            }
+            mostrarModelo.setItems(FXCollections.observableArrayList(modelos));
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 
     @FXML
     void initialize() {
+        
+        
         puertas.setOpacity(0);
         puertas3.setOpacity(0);
         puertas5.setOpacity(0);
@@ -229,11 +279,7 @@ public class CO_BuscadorCoches {
         mostrarModelo.setOpacity(0);
         marca.setOpacity(0);
         modelo.setOpacity(0);
-        
-        
 
     }
 
 }
-
-

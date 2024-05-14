@@ -66,7 +66,7 @@ public class CO_InicioSesion {
                 alert.showAndWait();
                 App.setRoot("BuscadorCoches");
                 App.scene.getWindow().setWidth(1121);
-                App.scene.getWindow().setHeight(548);
+                App.scene.getWindow().setHeight(560);
              
 
             } else {
@@ -83,7 +83,7 @@ public class CO_InicioSesion {
 
             con.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+         
         }
     }
 
