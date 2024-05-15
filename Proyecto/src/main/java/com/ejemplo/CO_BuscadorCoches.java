@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -19,12 +20,16 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 public class CO_BuscadorCoches {
-
+    static Coche cocheSeleccionado =null;
+    @FXML
+    private TextField mostrarNombre;
     @FXML
     private ResourceBundle resources;
 
@@ -96,77 +101,102 @@ public class CO_BuscadorCoches {
     private Label modelo;
 
     @FXML
-    void abrirCocheTabla(MouseEvent event) {
-
+    void abrirCocheTabla(MouseEvent event) throws IOException {
+    
+   
     }
 
     @FXML
     void mostrarDatos(ActionEvent event) {
 
     }
+
     @FXML
     void buscarLupa(ActionEvent event) {
         ObservableList<Coche> coches = FXCollections.observableArrayList();
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:33006/SuperCoches", "root", "root");
-            PreparedStatement st = con.prepareStatement(
-                    "SELECT Marca, Modelo, Puertas, Combustible, Kilometraje, Precio, Estado FROM SuperCoches.Coches WHERE Puertas = ? AND Combustible = ? AND Kilometraje > ? AND Kilometraje <= ? AND Precio <= ? AND Marca = ? AND Modelo = ?");
-    
-            int puertas = 0;
-            if (puertas3.isSelected()) {
-                puertas = 3;
-                puertas5.setSelected(false);
-            } else {
-                puertas = 5;
-                puertas3.setSelected(false);
+
+            StringBuilder sql = new StringBuilder(
+                    "SELECT Marca, Modelo, Puertas, Combustible, Kilometraje, Precio, Estado FROM SuperCoches.Coches WHERE 1=1");
+            List<Object> parameters = new ArrayList<>();
+
+            if (puertas3.isSelected() || puertas5.isSelected()) {
+                sql.append(" AND Puertas = ?");
+                parameters.add(puertas3.isSelected() ? 3 : 5);
             }
-    
-            int kil1 = 0;
-            int kil2 = 0;
-            if (VeinteKilom.isSelected()) {
-                kil1 = 0;
-                kil2 = 50000;
-            } else if (CicuentaKilometros.isSelected()) {
-                kil1 = 50000;
-                kil2 = 100000;
-            } else {
-                kil1 = 100000;
-                kil2 = 100000000;
+
+            String combustible = opcionesCombustible.getSelectionModel().getSelectedItem();
+            if (combustible != null && !combustible.isEmpty()) {
+                sql.append(" AND Combustible = ?");
+                parameters.add(combustible);
             }
-    
-            st.setInt(1, puertas);
-            st.setString(2, opcionesCombustible.getSelectionModel().getSelectedItem());
-            st.setInt(3, kil1);
-            st.setInt(4, kil2);
-            st.setDouble(5, barraPrecio.getValue());
-            st.setString(6, mostrarMarca.getSelectionModel().getSelectedItem());
-            st.setString(7, mostrarModelo.getSelectionModel().getSelectedItem());
-    
+
+            if (VeinteKilom.isSelected() || CicuentaKilometros.isSelected() || masKilometros.isSelected()) {
+                sql.append(" AND (");
+                boolean isFirst = true;
+                if (VeinteKilom.isSelected()) {
+                    sql.append(isFirst ? "" : " OR ").append("Kilometraje <= 50000");
+                    isFirst = false;
+                }
+                if (CicuentaKilometros.isSelected()) {
+                    sql.append(isFirst ? "" : " OR ").append("Kilometraje > 50000 AND Kilometraje <= 100000");
+                    isFirst = false;
+                }
+                if (masKilometros.isSelected()) {
+                    sql.append(isFirst ? "" : " OR ").append("Kilometraje > 100000");
+                }
+                sql.append(")");
+            }
+
+            Double precio = barraPrecio.getValue();
+            if (precio > 0) {
+                sql.append(" AND Precio <= ?");
+                parameters.add(precio);
+            }
+
+            String marca = mostrarMarca.getSelectionModel().getSelectedItem();
+            if (marca != null && !marca.isEmpty()) {
+                sql.append(" AND Marca = ?");
+                parameters.add(marca);
+            }
+
+            String modelo = mostrarModelo.getSelectionModel().getSelectedItem();
+            if (modelo != null && !modelo.isEmpty()) {
+                sql.append(" AND Modelo = ?");
+                parameters.add(modelo);
+            }
+
+            PreparedStatement st = con.prepareStatement(sql.toString());
+
+            for (int i = 0; i < parameters.size(); i++) {
+                st.setObject(i + 1, parameters.get(i));
+            }
+
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                String marca = rs.getString("Marca");
-                String modelo = rs.getString("Modelo");
-                int puerta = rs.getInt("Puertas");
-                String comb = rs.getString("Combustible");
-                int precio = rs.getInt("Precio");
-                String estado = rs.getString("Estado");
-                int kilomet = rs.getInt("Kilometraje");
-    
-                Coche c = new Coche(marca, modelo, puerta, comb, kilomet, precio, estado);
+                String resultMarca = rs.getString("Marca");
+                String resultModelo = rs.getString("Modelo");
+                int resultPuerta = rs.getInt("Puertas");
+                String resultComb = rs.getString("Combustible");
+                int resultKilomet = rs.getInt("Kilometraje");
+                int resultPrecio = rs.getInt("Precio");
+                String resultEstado = rs.getString("Estado");
+
+                Coche c = new Coche(resultMarca, resultModelo, resultPuerta, resultComb, resultKilomet, resultPrecio,
+                        resultEstado);
                 coches.add(c);
             }
             tablaEntera.setItems(coches);
-  
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
-    
-    
-    
 
     @FXML
     void cerrarSesion(ActionEvent event) throws IOException {
+        CO_InicioSesion.cls = null;
         App.setRoot("InicioSesion");
         App.scene.getWindow().setWidth(1000);
         App.scene.getWindow().setHeight(570);
@@ -194,7 +224,7 @@ public class CO_BuscadorCoches {
 
                 comb.add(combustible);
             }
-           
+
             mostrarMarca.setItems(FXCollections.observableArrayList(marcas));
             opcionesCombustible.setItems(FXCollections.observableArrayList(comb));
 
@@ -238,14 +268,16 @@ public class CO_BuscadorCoches {
         }
 
     }
+
     @FXML
     void motrarModelos(MouseEvent event) {
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:33006/SuperCoches", "root", "root");
-            PreparedStatement st = con.prepareStatement("SELECT distinct Modelo from SuperCoches.Coches where Marca = ?");
+            PreparedStatement st = con
+                    .prepareStatement("SELECT distinct Modelo from SuperCoches.Coches where Marca = ?");
             st.setString(1, mostrarMarca.getSelectionModel().getSelectedItem());
             ResultSet rs = st.executeQuery();
-          
+
             ArrayList<String> modelos = new ArrayList<>();
             while (rs.next()) {
                 String modelo = rs.getString("Modelo");
@@ -262,8 +294,17 @@ public class CO_BuscadorCoches {
 
     @FXML
     void initialize() {
-        
-        
+
+        mostrarNombre.setText(CO_InicioSesion.cls.getNombre());
+
+        puertaTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Puertas"));
+        marcaTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Marca"));
+        modeloTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Modelo"));
+        combustibleTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Combustible"));
+        kilomTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Kilometraje"));
+        estadoTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Estado"));
+        precioTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Precio"));
+
         puertas.setOpacity(0);
         puertas3.setOpacity(0);
         puertas5.setOpacity(0);
@@ -280,6 +321,23 @@ public class CO_BuscadorCoches {
         marca.setOpacity(0);
         modelo.setOpacity(0);
 
+        tablaEntera.setRowFactory(tv -> {
+            TableRow<Coche> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                 cocheSeleccionado = row.getItem();
+                    try {
+                        App.setRoot("CocheInfo");
+                        App.scene.getWindow().setWidth(1000);
+                        App.scene.getWindow().setHeight(570);
+                    } catch (IOException e) {
+                     
+                        e.printStackTrace();
+                    }
+                }
+            });
+            return row;
+        });
     }
 
 }

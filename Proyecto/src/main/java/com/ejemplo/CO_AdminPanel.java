@@ -38,8 +38,8 @@ public class CO_AdminPanel {
     }
 
     @FXML
-    void editarCochesExistentes(ActionEvent event) {
-
+    void editarCochesExistentes(ActionEvent event) throws IOException {
+        App.setRoot("EditarCoche");
     }
 
     @FXML

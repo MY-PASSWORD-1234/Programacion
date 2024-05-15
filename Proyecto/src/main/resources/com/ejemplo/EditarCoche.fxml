@@ -7,7 +7,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="999.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ejemplo.CO_EditarCoche">
    <children>
-      <TableView fx:id="tablaEntera" layoutX="15.0" layoutY="36.0" onMouseClicked="#abrirCocheTabla" onSort="#mostrarDatos" prefHeight="502.0" prefWidth="968.0">
+      <TableView fx:id="tablaEntera" layoutX="15.0" layoutY="36.0" onSort="#mostrarDatos" prefHeight="502.0" prefWidth="968.0">
          <columns>
             <TableColumn fx:id="marcaTabla" minWidth="0.0" prefWidth="101.0" text="Marca" />
             <TableColumn fx:id="modeloTabla" prefWidth="113.0" text="Modelo" />

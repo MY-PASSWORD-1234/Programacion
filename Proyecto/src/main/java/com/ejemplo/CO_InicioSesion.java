@@ -18,7 +18,7 @@ import javafx.scene.control.TextField;
 
 
 public class CO_InicioSesion {
-
+    static Cliente cls = null;
     @FXML
     private ResourceBundle resources;
 
@@ -40,7 +40,7 @@ public class CO_InicioSesion {
         String contr = insertarContrasenia.getText();
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:33006/SuperCoches", "root", "root");
-            PreparedStatement st = con.prepareStatement("SELECT Nombre, Contraseña from SuperCoches.Usuarios");
+            PreparedStatement st = con.prepareStatement("SELECT Nombre, Contraseña,Dni from SuperCoches.Usuarios");
             ResultSet rs = st.executeQuery();
 
             boolean usuarioValido = false;
@@ -48,6 +48,7 @@ public class CO_InicioSesion {
             while (rs.next() || salir) {
                 String nom = rs.getString("Nombre");
                 String contrasenia = rs.getString("Contraseña");
+                String dni = rs.getString("Dni");
 
                 if (nombre.equals("admin") && contr.equals("admin")) {
                     App.setRoot("AdminPanel");
@@ -55,6 +56,7 @@ public class CO_InicioSesion {
 
                 } else if ((nombre.equals(nom) && contr.equals(contrasenia))) {
                     usuarioValido = true;
+                    cls = new Cliente(nombre, contrasenia, dni);
                 }
             }
 

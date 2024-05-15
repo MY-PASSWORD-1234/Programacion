@@ -5,82 +5,136 @@ public class Coche {
     private String Modelo;
     private int Puertas;
     private String Combustible;
-    private int Kilometros;
+    private int Kilometraje;
     private int Precio;
     private int CV;
-    private int Anio;
+    private int Año;
     private String Descripcion;
     private String Estado;
+
     public Coche(String marca, String modelo, int puertas, String combustible, int kilometros, int precio,
             String estado) {
         Marca = marca;
         Modelo = modelo;
         Puertas = puertas;
         Combustible = combustible;
-        Kilometros = kilometros;
+        Kilometraje = kilometros;
         Precio = precio;
         Estado = estado;
     }
+
+  
+
+    public Coche(String marca, String modelo, int puertas, String combustible, int kilometros, int precio, int cV,
+            int anio, String estado) {
+        Marca = marca;
+        Modelo = modelo;
+        Puertas = puertas;
+        Combustible = combustible;
+        Kilometraje = kilometros;
+        Precio = precio;
+        CV = cV;
+        Año = anio;
+        Estado = estado;
+    }
+    
+
+
+
+    public Coche(String marca, String modelo, int puertas, String combustible, int kilometraje, int precio, int cV,
+            int año, String descripcion, String estado) {
+        Marca = marca;
+        Modelo = modelo;
+        Puertas = puertas;
+        Combustible = combustible;
+        Kilometraje = kilometraje;
+        Precio = precio;
+        CV = cV;
+        Año = año;
+        Descripcion = descripcion;
+        Estado = estado;
+    }
+
+
+
     public String getMarca() {
         return Marca;
     }
+
     public void setMarca(String marca) {
         Marca = marca;
     }
+
     public String getModelo() {
         return Modelo;
     }
+
     public void setModelo(String modelo) {
         Modelo = modelo;
     }
+
     public int getPuertas() {
         return Puertas;
     }
+
     public void setPuertas(int puertas) {
         Puertas = puertas;
     }
+
     public String getCombustible() {
         return Combustible;
     }
+
     public void setCombustible(String combustible) {
         Combustible = combustible;
     }
-    public int getKilometros() {
-        return Kilometros;
+
+    public int getKilometraje() {
+        return Kilometraje;
     }
-    public void setKilometros(int kilometros) {
-        Kilometros = kilometros;
+
+    public void setKilometraje(int kilometros) {
+        Kilometraje = kilometros;
     }
+
     public int getPrecio() {
         return Precio;
     }
+
     public void setPrecio(int precio) {
         Precio = precio;
     }
+
     public int getCV() {
         return CV;
     }
+
     public void setCV(int cV) {
         CV = cV;
     }
-    public int getAnio() {
-        return Anio;
+
+    public int getAño() {
+        return Año;
     }
-    public void setAnio(int anio) {
-        Anio = anio;
+
+    public void setAño(int anio) {
+        Año = anio;
     }
+
     public String getDescripcion() {
         return Descripcion;
     }
+
     public void setDescripcion(String descripcion) {
         Descripcion = descripcion;
     }
+
     public String getEstado() {
         return Estado;
     }
+
     public void setEstado(String estado) {
         Estado = estado;
     }
 
-    
 }
