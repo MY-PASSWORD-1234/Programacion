@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="999.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="999.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ejemplo.CO_CrearCoche">
    <children>
       <ImageView fitHeight="548.0" fitWidth="999.0">
          <image>
@@ -26,25 +26,25 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <TextField editable="false" layoutX="192.0" layoutY="104.0" />
+      <TextField fx:id="marca" editable="false" layoutX="192.0" layoutY="104.0" />
       <Label layoutX="15.0" layoutY="100.0" prefHeight="24.0" prefWidth="93.0" text="Marca" textFill="WHITE" />
-      <TextField editable="false" layoutX="192.0" layoutY="142.0" />
+      <TextField fx:id="modelo" editable="false" layoutX="192.0" layoutY="142.0" />
       <Label layoutX="15.0" layoutY="138.0" prefHeight="24.0" prefWidth="93.0" text="Modelo" textFill="WHITE" />
-      <TextField editable="false" layoutX="192.0" layoutY="180.0" />
+      <TextField fx:id="combustible" editable="false" layoutX="192.0" layoutY="180.0" />
       <Label layoutX="15.0" layoutY="176.0" prefHeight="24.0" prefWidth="93.0" text="Combustible" textFill="WHITE" />
-      <TextField editable="false" layoutX="192.0" layoutY="220.0" />
+      <TextField fx:id="kilometros" editable="false" layoutX="192.0" layoutY="220.0" />
       <Label layoutX="15.0" layoutY="216.0" prefHeight="24.0" prefWidth="93.0" text="Kilometros" textFill="WHITE" />
-      <TextField editable="false" layoutX="193.0" layoutY="260.0" />
+      <TextField fx:id="puertas" editable="false" layoutX="193.0" layoutY="260.0" />
       <Label layoutX="16.0" layoutY="256.0" prefHeight="24.0" prefWidth="93.0" text="Puertas" textFill="WHITE" />
-      <TextField editable="false" layoutX="192.0" layoutY="300.0" />
+      <TextField fx:id="cv" editable="false" layoutX="192.0" layoutY="300.0" />
       <Label layoutX="15.0" layoutY="296.0" prefHeight="24.0" prefWidth="93.0" text="CV" textFill="WHITE" />
-      <TextField editable="false" layoutX="192.0" layoutY="337.0" />
+      <TextField fx:id="precio" editable="false" layoutX="192.0" layoutY="337.0" />
       <Label layoutX="15.0" layoutY="333.0" prefHeight="24.0" prefWidth="93.0" text="Precio" textFill="WHITE" />
-      <TextField editable="false" layoutX="192.0" layoutY="373.0" />
+      <TextField fx:id="anio" editable="false" layoutX="192.0" layoutY="373.0" />
       <Label layoutX="15.0" layoutY="369.0" prefHeight="24.0" prefWidth="93.0" text="Año" textFill="WHITE" />
-      <TextArea layoutX="480.0" layoutY="414.0" prefHeight="115.0" prefWidth="490.0" />
+      <TextArea fx:id="descripcion" layoutX="480.0" layoutY="414.0" prefHeight="115.0" prefWidth="490.0" />
       <Label layoutX="379.0" layoutY="414.0" prefHeight="24.0" prefWidth="93.0" text="Descripcion" textFill="WHITE" />
-      <Button layoutX="22.0" layoutY="17.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="41.0" text="&lt;--" />
+      <Button layoutX="22.0" layoutY="17.0" mnemonicParsing="false" onAction="#volver" prefHeight="18.0" prefWidth="41.0" text="&lt;--" />
       <ImageView fitHeight="294.0" fitWidth="602.0" layoutX="373.0" layoutY="85.0">
          <image>
             <Image url="@img/amarillo.png" />
@@ -55,9 +55,9 @@
             <Image url="@img/Color_negro.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="277.0" fitWidth="585.0" layoutX="382.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
-      <Button layoutX="71.0" layoutY="450.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="122.0" style="-fx-background-color: green;" text="Crear" textFill="WHITE" />
-      <Button layoutX="241.0" layoutY="450.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="122.0" style="-fx-background-color: red;" text="Limpiar" textFill="WHITE" />
-      <Button layoutX="627.0" layoutY="381.0" mnemonicParsing="false" text="Seleccionar" />
+      <ImageView fx:id="ponerImagen" fitHeight="277.0" fitWidth="585.0" layoutX="382.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
+      <Button layoutX="71.0" layoutY="450.0" mnemonicParsing="false" onAction="#crearCoche" prefHeight="44.0" prefWidth="122.0" style="-fx-background-color: green;" text="Crear" textFill="WHITE" />
+      <Button layoutX="241.0" layoutY="450.0" mnemonicParsing="false" onAction="#limpiarCampos" prefHeight="44.0" prefWidth="122.0" style="-fx-background-color: red;" text="Limpiar" textFill="WHITE" />
+      <Button layoutX="627.0" layoutY="381.0" mnemonicParsing="false" onAction="#seleccionarFoto" text="Seleccionar" />
    </children>
 </AnchorPane>

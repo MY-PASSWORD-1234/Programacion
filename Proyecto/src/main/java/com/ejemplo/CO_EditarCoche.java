@@ -13,12 +13,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
+
 
 public class CO_EditarCoche {
-
+   static Coche cocheSeleccionado2 ;
+   private  Connection con;
     @FXML
     private ResourceBundle resources;
 
@@ -67,7 +69,7 @@ public class CO_EditarCoche {
 
     @FXML
     void initialize() {
-          CVTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("CV"));
+        CVTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("CV"));
         anioTable.setCellValueFactory(new PropertyValueFactory<Coche, String>("Año"));
         puertaTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Puertas"));
         marcaTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Marca"));
@@ -76,11 +78,10 @@ public class CO_EditarCoche {
         kilomTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Kilometraje"));
         estadoTabla11.setCellValueFactory(new PropertyValueFactory<Coche, String>("Estado"));
         precioTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Precio"));
-        
-      
-         ObservableList<Coche> coches = FXCollections.observableArrayList();
+
+        ObservableList<Coche> coches = FXCollections.observableArrayList();
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:33006/SuperCoches", "root", "root");
+            con = CO_InicioSesion.getCon();
             PreparedStatement st = con.prepareStatement("SELECT * from SuperCoches.Coches");
             ResultSet rs = st.executeQuery();
 
@@ -95,14 +96,31 @@ public class CO_EditarCoche {
                 int CV = rs.getInt("CV");
                 int anio = rs.getInt("Año");
 
-                Coche c = new Coche(marca, modelo, puerta, comb, kilomet, precio,CV,anio,estado);
+                Coche c = new Coche(marca, modelo, puerta, comb, kilomet, precio, CV, anio, estado);
                 coches.add(c);
-              
+
             }
             tablaEntera.setItems(coches);
         } catch (Exception e) {
 
         }
+        tablaEntera.setRowFactory(tv -> {
+            TableRow<Coche> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    cocheSeleccionado2 = row.getItem();
+                    try {
+                        App.setRoot("EditarInfoCoche");
+                        App.scene.getWindow().setWidth(1000);
+                        App.scene.getWindow().setHeight(570);
+                    } catch (IOException e) {
+
+                        e.printStackTrace();
+                    }
+                }
+            });
+            return row;
+        });
     }
 
 }

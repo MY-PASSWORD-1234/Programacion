@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 
 public class CO_InicioSesion {
     static Cliente cls = null;
+    static Connection con;
     @FXML
     private ResourceBundle resources;
 
@@ -39,7 +40,7 @@ public class CO_InicioSesion {
         String nombre = insertarNombre.getText();
         String contr = insertarContrasenia.getText();
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:33006/SuperCoches", "root", "root");
+          
             PreparedStatement st = con.prepareStatement("SELECT Nombre, Contraseña,Dni from SuperCoches.Usuarios");
             ResultSet rs = st.executeQuery();
 
@@ -83,7 +84,7 @@ public class CO_InicioSesion {
 
             }
 
-            con.close();
+           
         } catch (SQLException e) {
          
         }
@@ -101,8 +102,33 @@ public class CO_InicioSesion {
 
     @FXML
     void initialize() {
+        
+        try {
+            con = crearConexion("33006", "SuperCoches", "root", "root");
+        } catch (Exception e) {
+            try {
+                con.close();
+            } catch (Exception e1) {
+                System.out.println("[!]Error: " + e1.getMessage());
+            }
+            System.out.println("[!]Error: " + e.getMessage());
+        }
+    }
 
+    public static Connection crearConexion(String puerto, String baseDatos, String usuario, String passwd) {
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:" + puerto + "/" + baseDatos, usuario,
+                    passwd);
+            return con;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static Connection getCon() {
+        return con;
+    }
     }
 
    
-}
+

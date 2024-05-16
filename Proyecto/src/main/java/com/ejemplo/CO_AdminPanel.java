@@ -2,6 +2,7 @@ package com.ejemplo;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -10,7 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 public class CO_AdminPanel {
-
+   private Connection con;
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -56,6 +57,7 @@ public class CO_AdminPanel {
 
     @FXML
     void initialize() {
+        con = CO_InicioSesion.getCon();
         perfilesUsuarios.setOpacity(0);
     }
 }

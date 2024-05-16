@@ -6,28 +6,34 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 public class CO_BuscadorCoches {
-    static Coche cocheSeleccionado =null;
+    static Coche cocheSeleccionado = null;
+    private static Connection con;
+
+    @FXML
+    private ToggleGroup k;
+
+    @FXML
+    private ToggleGroup p;
     @FXML
     private TextField mostrarNombre;
     @FXML
@@ -37,10 +43,13 @@ public class CO_BuscadorCoches {
     private URL location;
 
     @FXML
-    private CheckBox CicuentaKilometros;
+    private RadioButton CicuentaKilometros;
 
     @FXML
-    private CheckBox VeinteKilom;
+    private RadioButton VeinteKilom;
+
+    @FXML
+    private RadioButton masKilometros;
 
     @FXML
     private Slider barraPrecio;
@@ -53,9 +62,6 @@ public class CO_BuscadorCoches {
 
     @FXML
     private Label kilometros;
-
-    @FXML
-    private CheckBox masKilometros;
 
     @FXML
     private ChoiceBox<String> mostrarMarca;
@@ -89,10 +95,10 @@ public class CO_BuscadorCoches {
     private TableView<Coche> tablaEntera;
 
     @FXML
-    private CheckBox puertas3;
+    private RadioButton puerta3;
 
     @FXML
-    private CheckBox puertas5;
+    private RadioButton puerta5;
     @FXML
     private Label precio;
     @FXML
@@ -102,8 +108,7 @@ public class CO_BuscadorCoches {
 
     @FXML
     void abrirCocheTabla(MouseEvent event) throws IOException {
-    
-   
+
     }
 
     @FXML
@@ -115,15 +120,13 @@ public class CO_BuscadorCoches {
     void buscarLupa(ActionEvent event) {
         ObservableList<Coche> coches = FXCollections.observableArrayList();
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:33006/SuperCoches", "root", "root");
-
             StringBuilder sql = new StringBuilder(
                     "SELECT Marca, Modelo, Puertas, Combustible, Kilometraje, Precio, Estado FROM SuperCoches.Coches WHERE 1=1");
             List<Object> parameters = new ArrayList<>();
 
-            if (puertas3.isSelected() || puertas5.isSelected()) {
+            if (puerta3.isSelected() || puerta5.isSelected()) {
                 sql.append(" AND Puertas = ?");
-                parameters.add(puertas3.isSelected() ? 3 : 5);
+                parameters.add(puerta3.isSelected() ? 3 : 5);
             }
 
             String combustible = opcionesCombustible.getSelectionModel().getSelectedItem();
@@ -150,7 +153,7 @@ public class CO_BuscadorCoches {
             }
 
             Double precio = barraPrecio.getValue();
-            if (precio > 0) {
+            if (precio > 50000) {
                 sql.append(" AND Precio <= ?");
                 parameters.add(precio);
             }
@@ -205,7 +208,6 @@ public class CO_BuscadorCoches {
     @FXML
     void mostrarFiltros(ActionEvent event) {
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:33006/SuperCoches", "root", "root");
             PreparedStatement st = con.prepareStatement("SELECT distinct Marca from SuperCoches.Coches");
             ResultSet rs = st.executeQuery();
             ArrayList<String> marcas = new ArrayList<>();
@@ -234,8 +236,8 @@ public class CO_BuscadorCoches {
 
         if (puertas.getOpacity() == 1) {
             puertas.setOpacity(0);
-            puertas3.setOpacity(0);
-            puertas5.setOpacity(0);
+            puerta3.setOpacity(0);
+            puerta5.setOpacity(0);
             combustible.setOpacity(0);
             opcionesCombustible.setOpacity(0);
             kilometros.setOpacity(0);
@@ -251,8 +253,8 @@ public class CO_BuscadorCoches {
 
         } else {
             puertas.setOpacity(1.0);
-            puertas3.setOpacity(1.0);
-            puertas5.setOpacity(1.0);
+            puerta3.setOpacity(1.0);
+            puerta5.setOpacity(1.0);
             combustible.setOpacity(1.0);
             opcionesCombustible.setOpacity(1.0);
             kilometros.setOpacity(1.0);
@@ -262,6 +264,7 @@ public class CO_BuscadorCoches {
             precio.setOpacity(1.0);
             barraPrecio.setOpacity(1.0);
             mostrarMarca.setOpacity(1.0);
+        
             mostrarModelo.setOpacity(1.0);
             marca.setOpacity(1.0);
             modelo.setOpacity(1.0);
@@ -272,7 +275,7 @@ public class CO_BuscadorCoches {
     @FXML
     void motrarModelos(MouseEvent event) {
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:33006/SuperCoches", "root", "root");
+
             PreparedStatement st = con
                     .prepareStatement("SELECT distinct Modelo from SuperCoches.Coches where Marca = ?");
             st.setString(1, mostrarMarca.getSelectionModel().getSelectedItem());
@@ -294,7 +297,7 @@ public class CO_BuscadorCoches {
 
     @FXML
     void initialize() {
-
+        con = CO_InicioSesion.getCon();
         mostrarNombre.setText(CO_InicioSesion.cls.getNombre());
 
         puertaTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Puertas"));
@@ -306,8 +309,8 @@ public class CO_BuscadorCoches {
         precioTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Precio"));
 
         puertas.setOpacity(0);
-        puertas3.setOpacity(0);
-        puertas5.setOpacity(0);
+        puerta3.setOpacity(0);
+        puerta5.setOpacity(0);
         combustible.setOpacity(0);
         opcionesCombustible.setOpacity(0);
         kilometros.setOpacity(0);
@@ -325,19 +328,20 @@ public class CO_BuscadorCoches {
             TableRow<Coche> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                 cocheSeleccionado = row.getItem();
+                    cocheSeleccionado = row.getItem();
                     try {
                         App.setRoot("CocheInfo");
                         App.scene.getWindow().setWidth(1000);
                         App.scene.getWindow().setHeight(570);
                     } catch (IOException e) {
-                     
+
                         e.printStackTrace();
                     }
                 }
             });
             return row;
         });
-    }
+       
 
+    }
 }

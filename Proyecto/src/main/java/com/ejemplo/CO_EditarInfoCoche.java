@@ -3,28 +3,24 @@ package com.ejemplo;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.paint.Color;
 
-public class CO_CocheInfo {
+public class CO_EditarInfoCoche {
     private Connection con;
-
-    @FXML
-    private Button comprarBoton;
+    Coche c;
     @FXML
     private ResourceBundle resources;
-    @FXML
-    private Button estadoBoton;
+
     @FXML
     private URL location;
 
@@ -41,6 +37,9 @@ public class CO_CocheInfo {
     private TextArea descripMostrar;
 
     @FXML
+    private ImageView imagenCoche;
+
+    @FXML
     private TextField kilometrosMostrar;
 
     @FXML
@@ -50,34 +49,59 @@ public class CO_CocheInfo {
     private TextField modeloMostrar;
 
     @FXML
-    private ImageView mostrarImagen;
-
-    @FXML
     private TextField precioMostrar;
 
     @FXML
     private TextField puertasMostrar;
 
     @FXML
-    void comprarAcion(ActionEvent event) {
+    void actualizarCoche(ActionEvent event) {
+        try {
+            con = CO_InicioSesion.getCon();
+            PreparedStatement st = con.prepareStatement(
+                    "UPDATE SuperCoches.Coches set Marca = ? , Modelo = ?, Puertas = ?,Combustible = ?, Kilometraje = ?,Precio = ?,CV = ? ,Año = ? , Descripcion = ? where Modelo = ?");
+            st.setString(1, marcaMostrar.getText());
+            st.setString(2, modeloMostrar.getText());
+            st.setInt(3, Integer.parseInt(puertasMostrar.getText()));
+            st.setString(4, combMostrar.getText());
+            st.setInt(5, Integer.parseInt(kilometrosMostrar.getText()));
+            st.setInt(6, Integer.parseInt(precioMostrar.getText()));
+            st.setInt(7, Integer.parseInt(cvMostrar.getText()));
+            st.setInt(8, Integer.parseInt(anioMostrar.getText()));
+            st.setString(9, descripMostrar.getText());
+            st.setString(10, modeloMostrar.getText());
+
+            st.executeUpdate();
+
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Actualizado");
+            alert.setHeaderText("");
+            alert.setContentText("Se ha actualizado con exito");
+            alert.showAndWait();
+            App.setRoot("EditarCoche");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    void seleccionarFoto(ActionEvent event) {
 
     }
 
     @FXML
-    void volver(ActionEvent event) throws IOException {
-        App.setRoot("BuscadorCoches");
-        App.scene.getWindow().setWidth(1121);
-        App.scene.getWindow().setHeight(560);
+    void voler(ActionEvent event) throws IOException {
+        App.setRoot("EditarCoche");
     }
 
     @FXML
     void initialize() {
-        comprarBoton.setOpacity(0);
         con = CO_InicioSesion.getCon();
-        Coche c = null;
+
+        System.out.println(con);
         try {
-            PreparedStatement st = con.prepareStatement("SELECT *from SuperCoches.Coches where Modelo = ?");
-            st.setString(1, CO_BuscadorCoches.cocheSeleccionado.getModelo());
+            PreparedStatement st = con.prepareStatement("SELECT * from SuperCoches.Coches where Modelo = ?");
+            st.setString(1, CO_EditarCoche.cocheSeleccionado2.getModelo());
             ResultSet rs = st.executeQuery();
             String estado = "";
             while (rs.next()) {
@@ -93,29 +117,6 @@ public class CO_CocheInfo {
                 String des = rs.getString("Descripcion");
 
                 c = new Coche(marca, modelo, puerta, comb, kilomet, precio, CV, anio, des, estado);
-                BackgroundFill backgroundFill;
-                Background background;
-
-                if (estado.equals("Disponible")) {
-                    backgroundFill = new BackgroundFill(Color.GREEN, null, null);
-                    background = new Background(backgroundFill);
-                    estadoBoton.setBackground(background);
-                    comprarBoton.setOpacity(1.0);
-                }
-
-                if (estado.equals("Reservado")) {
-                    backgroundFill = new BackgroundFill(Color.YELLOW, null, null);
-                    background = new Background(backgroundFill);
-                    estadoBoton.setBackground(background);
-                }
-                if (estado.equals("Vendido")) {
-                    backgroundFill = new BackgroundFill(Color.RED, null, null);
-                    background = new Background(backgroundFill);
-                    estadoBoton.setBackground(background);
-                    estadoBoton.applyCss();
-                    estadoBoton.layout();
-
-                }
             }
 
             anioMostrar.setText(c.getAño() + "");
@@ -133,5 +134,4 @@ public class CO_CocheInfo {
         }
 
     }
-
 }
