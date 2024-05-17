@@ -35,14 +35,14 @@ CREATE TABLE `Coches` (
   `CV` int NOT NULL,
   `Año` varchar(45) NOT NULL,
   `Descripcion` varchar(300) NOT NULL,
-  `Estado` varchar(45) NOT NULL,
-  `Img` varchar(300) DEFAULT 'Disponible',
+  `Estado` varchar(45) NOT NULL DEFAULT 'Disponible',
+  `Img` varchar(300) DEFAULT NULL,
   `idUsuario` int DEFAULT NULL,
   PRIMARY KEY (`idCoches`),
   UNIQUE KEY `Modelo_UNIQUE` (`Modelo`),
   KEY `fk_Coches_1_idx` (`idUsuario`),
   CONSTRAINT `fk_Coches_1` FOREIGN KEY (`idUsuario`) REFERENCES `Usuarios` (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,7 +51,7 @@ CREATE TABLE `Coches` (
 
 LOCK TABLES `Coches` WRITE;
 /*!40000 ALTER TABLE `Coches` DISABLE KEYS */;
-INSERT INTO `Coches` VALUES (1,'Peugeot','308',5,'Diesel',20000,30000,95,'2006','Rapido y veloz','Disponible',NULL,NULL),(2,'Mercedes-Benz','Clase S',5,'Gasolina',200000,60000,350,'2021','Lujo y tecnología avanzada','Disponible',NULL,NULL),(3,'Ferrari','488 GTB',3,'Gasolina',10000,250000,670,'2022','Potencia y estilo italiano','Disponible',NULL,NULL),(4,'Lamborghini','Huracán',3,'Gasolina',8000,300000,640,'2022','Potencia y diseño aerodinámico','Disponible',NULL,NULL),(5,'Porsche','911',3,'Gasolina',12000,180000,450,'2021','Icono deportivo con ingeniería alemana','Disponible',NULL,NULL),(6,'Land Rover','Range Rover Sport',5,'Diesel',30000,70000,300,'2020','SUV de lujo con capacidades todoterreno','Disponible',NULL,NULL),(7,'Aston Martin','DB11',3,'Gasolina',10000,250000,600,'2021','Elegancia británica y potencia de motor V12','Disponible',NULL,NULL),(8,'McLaren','720S',3,'Gasolina',8000,300000,710,'2022','Innovación aerodinámica y rendimiento extremo','Disponible',NULL,NULL),(9,'Rolls-Royce','Phantom',5,'Gasolina',5000,400000,563,'2024','Limusina de lujo con artesanía excepcional y comodidades de primera clase.','Vendido',NULL,NULL);
+INSERT INTO `Coches` VALUES (1,'Peugeot','308',5,'Diesel',20000,30000,95,'2006','Rapido y veloz','Disponible',NULL,NULL),(2,'Mercedes-Benz','Clase S',5,'Gasolina',200000,60000,350,'2021','Lujo y tecnología avanzada','Disponible','src/main/resources/com/ejemplo/img/mercedes-benz-clase-s.png',NULL),(3,'Ferrari','488 GTB',3,'Gasolina',10000,250000,670,'2022','Potencia y estilo italiano','Disponible','src/main/resources/com/ejemplo/img/ferrari-488-gtb-1.png',NULL),(4,'Lamborghini','Huracán',3,'Gasolina',8000,300000,640,'2022','Potencia y diseño aerodinámico','Disponible','src/main/resources/com/ejemplo/img/lambo.png',NULL),(5,'Porsche','911',3,'Gasolina',12000,180000,450,'2021','Icono deportivo con ingeniería alemana','Disponible','src/main/resources/com/ejemplo/img/porche-911.png',NULL),(6,'Land Rover','Range Rover Sport',5,'Diesel',30000,70000,300,'2020','SUV de lujo con capacidades todoterreno','Disponible','src/main/resources/com/ejemplo/img/lanrover-sport.png',NULL),(7,'Aston Martin','DB11',3,'Gasolina',10000,250000,600,'2021','Elegancia británica y potencia de motor V12','Disponible','src/main/resources/com/ejemplo/img/astonmartin-DB11.png',NULL),(8,'McLaren','720S',3,'Gasolina',8000,300000,710,'2022','Innovación aerodinámica y rendimiento extremo','Disponible','src/main/resources/com/ejemplo/img/mclaren-720s.png',NULL),(9,'Rolls-Royce','Phantom',5,'Gasolina',5000,400000,563,'2024','Limusina de lujo con artesanía excepcional y comodidades de primera clase.','Vendido','src/main/resources/com/ejemplo/img/rolls-royce-phantom.png',NULL);
 /*!40000 ALTER TABLE `Coches` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -122,4 +122,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-16 20:12:26
+-- Dump completed on 2024-05-17 16:15:18
