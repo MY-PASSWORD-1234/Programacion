@@ -1,5 +1,6 @@
 package com.ejemplo;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -11,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -76,8 +78,10 @@ public class CO_CocheInfo {
         con = CO_InicioSesion.getCon();
         Coche c = null;
         try {
-            PreparedStatement st = con.prepareStatement("SELECT *from SuperCoches.Coches where Modelo = ?");
+            String foto ="" ;
+            PreparedStatement st = con.prepareStatement("SELECT *from SuperCoches.Coches where Modelo = ? and Marca = ?");
             st.setString(1, CO_BuscadorCoches.cocheSeleccionado.getModelo());
+            st.setString(2, CO_BuscadorCoches.cocheSeleccionado.getMarca());
             ResultSet rs = st.executeQuery();
             String estado = "";
             while (rs.next()) {
@@ -91,6 +95,7 @@ public class CO_CocheInfo {
                 int CV = rs.getInt("CV");
                 int anio = rs.getInt("Año");
                 String des = rs.getString("Descripcion");
+                foto = rs.getString("Img");
 
                 c = new Coche(marca, modelo, puerta, comb, kilomet, precio, CV, anio, des, estado);
                 BackgroundFill backgroundFill;
@@ -117,7 +122,8 @@ public class CO_CocheInfo {
 
                 }
             }
-
+            File file = new File(foto);
+            Image imagen = new Image(file.toURI().toString());
             anioMostrar.setText(c.getAño() + "");
             marcaMostrar.setText(c.getMarca());
             modeloMostrar.setText(c.getModelo());
@@ -127,6 +133,7 @@ public class CO_CocheInfo {
             precioMostrar.setText(c.getPrecio() + "");
             cvMostrar.setText(c.getCV() + "");
             descripMostrar.setText(c.getDescripcion());
+            mostrarImagen.setImage(imagen);
 
         } catch (Exception e) {
             // TODO: handle exception
