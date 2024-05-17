@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,7 +30,8 @@ import javafx.scene.input.MouseEvent;
 public class CO_BuscadorCoches {
     static Coche cocheSeleccionado = null;
     private static Connection con;
-
+    static Timeline animacion;
+    static Timeline animacion2;
     @FXML
     private ToggleGroup k;
 
@@ -234,40 +237,11 @@ public class CO_BuscadorCoches {
             // TODO: handle exception
         }
 
-        if (puertas.getOpacity() == 1) {
-            puertas.setOpacity(0);
-            puerta3.setOpacity(0);
-            puerta5.setOpacity(0);
-            combustible.setOpacity(0);
-            opcionesCombustible.setOpacity(0);
-            kilometros.setOpacity(0);
-            VeinteKilom.setOpacity(0);
-            CicuentaKilometros.setOpacity(0);
-            masKilometros.setOpacity(0);
-            precio.setOpacity(0);
-            barraPrecio.setOpacity(0);
-            mostrarMarca.setOpacity(0);
-            mostrarModelo.setOpacity(0);
-            marca.setOpacity(0);
-            modelo.setOpacity(0);
+        if (puertas.getOpacity() >= 0.9) {
+            animacion2.play();
 
         } else {
-            puertas.setOpacity(1.0);
-            puerta3.setOpacity(1.0);
-            puerta5.setOpacity(1.0);
-            combustible.setOpacity(1.0);
-            opcionesCombustible.setOpacity(1.0);
-            kilometros.setOpacity(1.0);
-            VeinteKilom.setOpacity(1.0);
-            CicuentaKilometros.setOpacity(1.0);
-            masKilometros.setOpacity(1.0);
-            precio.setOpacity(1.0);
-            barraPrecio.setOpacity(1.0);
-            mostrarMarca.setOpacity(1.0);
-        
-            mostrarModelo.setOpacity(1.0);
-            marca.setOpacity(1.0);
-            modelo.setOpacity(1.0);
+            animacion.play();
         }
 
     }
@@ -341,7 +315,52 @@ public class CO_BuscadorCoches {
             });
             return row;
         });
-       
+        animacion = new Timeline();
+        animacion.setCycleCount(10);
+        animacion.setAutoReverse(false);
+        animacion.getKeyFrames().add(new KeyFrame(javafx.util.Duration.millis(100),
+                event -> {
+                    modelo.setOpacity(modelo.getOpacity() + 0.1);
+                    puertas.setOpacity(puertas.getOpacity() + 0.1);
+                    puerta3.setOpacity(puerta3.getOpacity() + 0.1);
+                    puerta5.setOpacity(puerta5.getOpacity() + 0.1);
+                    combustible.setOpacity(combustible.getOpacity() + 0.1);
+                    opcionesCombustible.setOpacity(opcionesCombustible.getOpacity() + 0.1);
+                    kilometros.setOpacity(kilometros.getOpacity() + 0.1);
+                    VeinteKilom.setOpacity(VeinteKilom.getOpacity() + 0.1);
+                    CicuentaKilometros.setOpacity(CicuentaKilometros.getOpacity() + 0.1);
+                    masKilometros.setOpacity(masKilometros.getOpacity() + 0.1);
+                    precio.setOpacity(precio.getOpacity() + 0.1);
+                    barraPrecio.setOpacity(barraPrecio.getOpacity() + 0.1);
+                    mostrarMarca.setOpacity(mostrarMarca.getOpacity() + 0.1);
+                    mostrarModelo.setOpacity(mostrarModelo.getOpacity() + 0.1);
+                    marca.setOpacity(marca.getOpacity() + 0.1);
+                    System.out.println(puerta3.getOpacity());
+                }));
+        animacion2 = new Timeline();
+        animacion2.setCycleCount(10);
+        animacion2.setAutoReverse(false);
+        animacion2.getKeyFrames().add(new KeyFrame(javafx.util.Duration.millis(50),
+                event -> {
+                    modelo.setOpacity(modelo.getOpacity() - 0.1);
+
+                    puertas.setOpacity(puertas.getOpacity() - 0.1);
+                    puerta3.setOpacity(puerta3.getOpacity() - 0.1);
+                    puerta5.setOpacity(puerta5.getOpacity() - 0.1);
+                    combustible.setOpacity(combustible.getOpacity() - 0.1);
+                    opcionesCombustible.setOpacity(opcionesCombustible.getOpacity() - 0.1);
+                    kilometros.setOpacity(kilometros.getOpacity() - 0.1);
+                    VeinteKilom.setOpacity(VeinteKilom.getOpacity() - 0.1);
+                    CicuentaKilometros.setOpacity(CicuentaKilometros.getOpacity() - 0.1);
+                    masKilometros.setOpacity(masKilometros.getOpacity() - 0.1);
+                    precio.setOpacity(precio.getOpacity() - 0.1);
+                    barraPrecio.setOpacity(barraPrecio.getOpacity() - 0.1);
+                    mostrarMarca.setOpacity(mostrarMarca.getOpacity() - 0.1);
+                    mostrarModelo.setOpacity(mostrarModelo.getOpacity() - 0.1);
+                    marca.setOpacity(marca.getOpacity() - 0.1);
+
+                }));
 
     }
+
 }
