@@ -335,12 +335,11 @@ public class CO_BuscadorCoches {
                     mostrarMarca.setOpacity(mostrarMarca.getOpacity() + 0.1);
                     mostrarModelo.setOpacity(mostrarModelo.getOpacity() + 0.1);
                     marca.setOpacity(marca.getOpacity() + 0.1);
-                    System.out.println(puerta3.getOpacity());
                 }));
         animacion2 = new Timeline();
         animacion2.setCycleCount(10);
         animacion2.setAutoReverse(false);
-        animacion2.getKeyFrames().add(new KeyFrame(javafx.util.Duration.millis(50),
+        animacion2.getKeyFrames().add(new KeyFrame(javafx.util.Duration.millis(45),
                 event -> {
                     modelo.setOpacity(modelo.getOpacity() - 0.1);
 

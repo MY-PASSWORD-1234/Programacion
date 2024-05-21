@@ -25,7 +25,8 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class CO_CrearCoche {
-    String foto ;
+    String foto;
+    String rutaModificada;
     private Connection con;
     @FXML
     private ResourceBundle resources;
@@ -82,13 +83,27 @@ public class CO_CrearCoche {
 
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         File file = fileChooser.showOpenDialog(stage);
+        String rutaCompleta = foto;
+        String rutaParaEliminar = "/home/dam/Escritorio/Programacion/Proyecto";
 
-        if (file != null) {
-        foto = file.getAbsolutePath();
-         Image image = new Image(file.toURI().toString());
-         ponerImagen.setImage(image);
+     
+        if (rutaCompleta.startsWith(rutaParaEliminar)) {
+    
+         rutaModificada = rutaCompleta.substring(rutaParaEliminar.length());
+       
+            if (rutaModificada.startsWith("/")) {
+                rutaModificada = rutaModificada.substring(1);
+            }
+            System.out.println("Ruta modificada: " + rutaModificada);
+        } else {
+            System.out.println("La ruta completa no contiene la parte a eliminar.");
         }
-      
+        if (file != null) {
+            foto = file.getAbsolutePath();
+            Image image = new Image(file.toURI().toString());
+            ponerImagen.setImage(image);
+        }
+
     }
 
     @FXML
@@ -132,7 +147,7 @@ public class CO_CrearCoche {
                 st.setInt(7, Integer.parseInt(cv.getText()));
                 st.setInt(8, Integer.parseInt(anio.getText()));
                 st.setString(9, descripcion.getText());
-                st.setString(10, foto);
+                st.setString(10, rutaModificada);
                 st.executeUpdate();
 
                 marca.setText("");
