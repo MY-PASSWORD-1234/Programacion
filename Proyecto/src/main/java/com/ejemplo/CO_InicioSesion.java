@@ -51,7 +51,7 @@ public class CO_InicioSesion {
             alert.setHeaderText("Contraseña Vacía");
             alert.setContentText("Debe introducir una contraseña para iniciar sesión.");
             alert.showAndWait();
-
+            return;
         }
 
         String contraseñaenciptada = EncriptarDesencriptar.encriptar(contr);

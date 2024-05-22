@@ -84,16 +84,16 @@ public class CO_BuscadorCoches {
     private TableColumn<Coche, String> estadoTabla;
 
     @FXML
-    private TableColumn<Coche, String> kilomTabla;
+    private TableColumn<Coche, Integer> kilomTabla;
     @FXML
     private TableColumn<Coche, String> marcaTabla;
     @FXML
     private TableColumn<Coche, String> modeloTabla;
     @FXML
-    private TableColumn<Coche, String> precioTabla;
+    private TableColumn<Coche, Integer> precioTabla;
 
     @FXML
-    private TableColumn<Coche, String> puertaTabla;
+    private TableColumn<Coche, Integer> puertaTabla;
     @FXML
     private TableView<Coche> tablaEntera;
 
@@ -131,6 +131,13 @@ public class CO_BuscadorCoches {
                 sql.append(" AND Puertas = ?");
                 parameters.add(puerta3.isSelected() ? 3 : 5);
             }
+            String busca = buscador.getText();
+            if (!busca.isEmpty()) {
+                sql.append(" AND (Marca LIKE ? OR Modelo LIKE ?)");
+                parameters.add("%" + busca + "%"); 
+                parameters.add("%" + busca + "%");
+            }
+            
 
             String combustible = opcionesCombustible.getSelectionModel().getSelectedItem();
             if (combustible != null && !combustible.isEmpty()) {
@@ -273,14 +280,13 @@ public class CO_BuscadorCoches {
     void initialize() {
         con = CO_InicioSesion.getCon();
         mostrarNombre.setText(CO_InicioSesion.cls.getNombre());
-
-        puertaTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Puertas"));
+        puertaTabla.setCellValueFactory(new PropertyValueFactory<Coche, Integer>("Puertas"));
         marcaTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Marca"));
         modeloTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Modelo"));
         combustibleTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Combustible"));
-        kilomTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Kilometraje"));
+        kilomTabla.setCellValueFactory(new PropertyValueFactory<Coche, Integer>("Kilometraje"));
         estadoTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Estado"));
-        precioTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Precio"));
+        precioTabla.setCellValueFactory(new PropertyValueFactory<Coche, Integer>("Precio"));
 
         puertas.setOpacity(0);
         puerta3.setOpacity(0);

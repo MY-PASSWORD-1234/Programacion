@@ -51,7 +51,7 @@ CREATE TABLE `Coches` (
 
 LOCK TABLES `Coches` WRITE;
 /*!40000 ALTER TABLE `Coches` DISABLE KEYS */;
-INSERT INTO `Coches` VALUES (1,'Peugeot','308',5,'Diesel',20000,30000,95,'2006','Rapido y veloz','Disponible',NULL,NULL),(2,'Mercedes-Benz','Clase S',5,'Gasolina',200000,60000,350,'2021','Lujo y tecnología avanzada','Disponible','src/main/resources/com/ejemplo/img/mercedes-benz-clase-s.png',NULL),(3,'Ferrari','488 GTB',3,'Gasolina',10000,250000,670,'2022','Potencia y estilo italiano','Disponible','src/main/resources/com/ejemplo/img/ferrari-488-gtb-1.png',NULL),(4,'Lamborghini','Huracán',3,'Gasolina',8000,300000,640,'2022','Potencia y diseño aerodinámico','Disponible','src/main/resources/com/ejemplo/img/lambo.png',NULL),(5,'Porsche','911',3,'Gasolina',12000,180000,450,'2021','Icono deportivo con ingeniería alemana','Disponible','src/main/resources/com/ejemplo/img/porche-911.png',NULL),(6,'Land Rover','Range Rover Sport',5,'Diesel',30000,70000,300,'2020','SUV de lujo con capacidades todoterreno','Disponible','src/main/resources/com/ejemplo/img/lanrover-sport.png',NULL),(7,'Aston Martin','DB11',3,'Gasolina',10000,250000,600,'2021','Elegancia británica y potencia de motor V12','Disponible','src/main/resources/com/ejemplo/img/astonmartin-DB11.png',NULL),(8,'McLaren','720S',3,'Gasolina',8000,300000,710,'2022','Innovación aerodinámica y rendimiento extremo','Disponible','src/main/resources/com/ejemplo/img/mclaren-720s.png',NULL),(9,'Rolls-Royce','Phantom',5,'Gasolina',5000,400000,563,'2024','Limusina de lujo con artesanía excepcional y comodidades de primera clase.','Vendido','src/main/resources/com/ejemplo/img/rolls-royce-phantom.png',NULL);
+INSERT INTO `Coches` VALUES (1,'Peugeot','308',5,'Diesel',20000,30000,95,'2006','Rapido y veloz','Disponible','src/main/resources/com/ejemplo/img/1200px-Peugeot_308_5-Türer_front-1.png',NULL),(2,'Mercedes-Benz','Clase S',5,'Gasolina',200000,60000,350,'2021','Lujo y tecnología avanzada','Reservado','src/main/resources/com/ejemplo/img/mercedes-benz-clase-s.png',3),(3,'Ferrari','488 GTB',3,'Gasolina',10000,250000,670,'2022','Potencia y estilo italiano','Reservado','src/main/resources/com/ejemplo/img/ferrari-488-gtb-1.png',2),(4,'Lamborghini','Huracán',3,'Gasolina',8000,300000,640,'2022','Potencia y diseño aerodinámico','Disponible','src/main/resources/com/ejemplo/img/lambo.png',NULL),(5,'Porsche','911',3,'Gasolina',12000,180000,450,'2021','Icono deportivo con ingeniería alemana','Reservado','src/main/resources/com/ejemplo/img/porche-911.png',2),(6,'Land Rover','Range Rover Sport',5,'Diesel',30000,70000,300,'2020','SUV de lujo con capacidades todoterreno','Disponible','src/main/resources/com/ejemplo/img/lanrover-sport.png',NULL),(7,'Aston Martin','DB11',3,'Gasolina',10000,250000,600,'2021','Elegancia británica y potencia de motor V12','Disponible','src/main/resources/com/ejemplo/img/astonmartin-DB11.png',NULL),(8,'McLaren','720S',3,'Gasolina',8000,300000,710,'2022','Innovación aerodinámica y rendimiento extremo','Disponible','src/main/resources/com/ejemplo/img/mclaren-720s.png',NULL),(9,'Rolls-Royce','Phantom',5,'Gasolina',5000,400000,563,'2024','Limusina de lujo con artesanía excepcional y comodidades de primera clase.','Reservado','src/main/resources/com/ejemplo/img/rolls-royce-phantom.png',2);
 /*!40000 ALTER TABLE `Coches` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,7 +66,10 @@ CREATE TABLE `Recibo` (
   `idRecibo` int NOT NULL AUTO_INCREMENT,
   `idCoche` int NOT NULL,
   `idUsuario` int NOT NULL,
-  `Precio_Final` varchar(45) NOT NULL,
+  `Precio_Base` int NOT NULL,
+  `Iva` int NOT NULL,
+  `Cambio_Nombre` int NOT NULL,
+  `Precio_Final` int NOT NULL,
   `Fecha` varchar(45) NOT NULL DEFAULT 'CURRENT_TIMESTAMP',
   PRIMARY KEY (`idRecibo`),
   KEY `fk_Recibo_1_idx` (`idUsuario`),
@@ -96,11 +99,11 @@ CREATE TABLE `Usuarios` (
   `idUsuario` int NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(45) NOT NULL,
   `Contraseña` varchar(45) NOT NULL,
-  `Dni` varchar(12) NOT NULL,
+  `Dni` varchar(9) NOT NULL,
   PRIMARY KEY (`idUsuario`),
   UNIQUE KEY `idUsuario_UNIQUE` (`idUsuario`),
   UNIQUE KEY `Dni_UNIQUE` (`Dni`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,7 +112,7 @@ CREATE TABLE `Usuarios` (
 
 LOCK TABLES `Usuarios` WRITE;
 /*!40000 ALTER TABLE `Usuarios` DISABLE KEYS */;
-INSERT INTO `Usuarios` VALUES (1,'admin','admin','75552216C'),(2,'alex','1234','12345678C'),(3,'juan','1234','12345698A');
+INSERT INTO `Usuarios` VALUES (1,'admin','e/YrZHhClJYoL3CFrAftsQ==','75552216C'),(2,'alex','8U8ZdxsyiATvLaJ6eHIq4Q==','12345678C'),(3,'jose','Cggyhq/V0CnKIt0I7YQC3A==','12345678J'),(4,'pepe','Iki79pnDMeqrrWvTaYqjLA==','12345678V'),(5,'tet','8U8ZdxsyiATvLaJ6eHIq4Q==','12345678T');
 /*!40000 ALTER TABLE `Usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -122,4 +125,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-17 16:15:18
+-- Dump completed on 2024-05-22 19:27:17

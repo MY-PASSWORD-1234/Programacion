@@ -8,9 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-
-import javax.crypto.SecretKey;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -42,7 +39,18 @@ public class CO_Registrar {
         String dni = insertarDni.getText();
         String contraseñaencriptada = EncriptarDesencriptar.encriptar(contr);
         try {
-    
+            if (!validarDNI(dni)) {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("");
+                alert.setContentText("El DNI ingresado no es valido.");
+                alert.showAndWait();
+                insertarContrasenia.setText("");
+                insertarNombre.setText("");
+                insertarDni.setText("");
+                return;
+            }
+
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:33006/SuperCoches", "root", "root");
             PreparedStatement st = con.prepareStatement("SELECT Dni from SuperCoches.Usuarios");
             ResultSet rs = st.executeQuery();
@@ -58,10 +66,10 @@ public class CO_Registrar {
             }
 
             if (dniExistente) {
-                Alert alert = new Alert(AlertType.ERROR);
+                Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("Error");
                 alert.setHeaderText("");
-                alert.setContentText("Ese Dni ya está en uso en alguno de nuestros usuarios");
+                alert.setContentText("Ese DNI ya esta en uso en alguno de nuestros usuarios");
                 alert.showAndWait();
                 insertarContrasenia.setText("");
                 insertarNombre.setText("");
@@ -72,13 +80,13 @@ public class CO_Registrar {
                 st.setString(1, nombre);
                 st.setString(2, contraseñaencriptada);
                 st.setString(3, dni);
-          
+
                 int r = st.executeUpdate();
 
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Registro");
                 alert.setHeaderText("");
-                alert.setContentText("Te has registrado correctamente. Ahora puedes iniciar sesión.");
+                alert.setContentText("Te has registrado correctamente. Ahora puedes iniciar sesion.");
                 alert.showAndWait();
 
                 insertarContrasenia.setText("");
@@ -100,6 +108,11 @@ public class CO_Registrar {
     @FXML
     void initialize() {
 
+    }
+
+    private boolean validarDNI(String dni) {
+
+        return dni.matches("\\d{8}[A-Z]");
     }
 
 }

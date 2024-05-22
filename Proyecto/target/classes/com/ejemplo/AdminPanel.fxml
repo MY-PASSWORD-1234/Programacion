@@ -28,9 +28,9 @@
       <Button layoutX="130.0" layoutY="475.0" mnemonicParsing="false" onAction="#cerrarSesion" prefHeight="50.0" prefWidth="115.0" style="-fx-background-color: red;" text="Cerrar Sesion" textFill="WHITE" />
       <TableView fx:id="perfilesUsuarios" layoutX="407.0" layoutY="22.0" prefHeight="508.0" prefWidth="568.0">
         <columns>
-          <TableColumn fx:id="perfilesNombre" prefWidth="170.0" text="Nombre" />
-          <TableColumn fx:id="perfilesContrasena" prefWidth="214.0" text="Contraseña" />
-            <TableColumn fx:id="perfilesDni" prefWidth="183.0" text="Dni" />
+          <TableColumn fx:id="perfilesNombre" prefWidth="105.0" text="Nombre" />
+            <TableColumn fx:id="perfilesDni" prefWidth="102.0" text="Dni" />
+            <TableColumn fx:id="perfilesCoches" prefWidth="360.0" text="Coches" />
         </columns>
       </TableView>
    </children>
