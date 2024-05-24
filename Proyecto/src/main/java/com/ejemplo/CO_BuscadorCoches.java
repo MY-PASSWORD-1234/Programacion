@@ -3,7 +3,6 @@ package com.ejemplo;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -115,8 +114,8 @@ public class CO_BuscadorCoches {
     }
 
     @FXML
-    void mostrarDatos(ActionEvent event) {
-
+    void cargarPerfilUsuario(ActionEvent event) throws IOException {
+        App.setRoot("UsurioInfo");
     }
 
     @FXML
@@ -134,10 +133,9 @@ public class CO_BuscadorCoches {
             String busca = buscador.getText();
             if (!busca.isEmpty()) {
                 sql.append(" AND (Marca LIKE ? OR Modelo LIKE ?)");
-                parameters.add("%" + busca + "%"); 
+                parameters.add("%" + busca + "%");
                 parameters.add("%" + busca + "%");
             }
-            
 
             String combustible = opcionesCombustible.getSelectionModel().getSelectedItem();
             if (combustible != null && !combustible.isEmpty()) {
@@ -190,10 +188,10 @@ public class CO_BuscadorCoches {
             while (rs.next()) {
                 String resultMarca = rs.getString("Marca");
                 String resultModelo = rs.getString("Modelo");
-                int resultPuerta = rs.getInt("Puertas");
+                Integer resultPuerta = rs.getInt("Puertas");
                 String resultComb = rs.getString("Combustible");
-                int resultKilomet = rs.getInt("Kilometraje");
-                int resultPrecio = rs.getInt("Precio");
+                Integer resultKilomet = rs.getInt("Kilometraje");
+                Integer resultPrecio = rs.getInt("Precio");
                 String resultEstado = rs.getString("Estado");
 
                 Coche c = new Coche(resultMarca, resultModelo, resultPuerta, resultComb, resultKilomet, resultPrecio,
@@ -280,13 +278,15 @@ public class CO_BuscadorCoches {
     void initialize() {
         con = CO_InicioSesion.getCon();
         mostrarNombre.setText(CO_InicioSesion.cls.getNombre());
-        puertaTabla.setCellValueFactory(new PropertyValueFactory<Coche, Integer>("Puertas"));
-        marcaTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Marca"));
-        modeloTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Modelo"));
-        combustibleTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Combustible"));
-        kilomTabla.setCellValueFactory(new PropertyValueFactory<Coche, Integer>("Kilometraje"));
-        estadoTabla.setCellValueFactory(new PropertyValueFactory<Coche, String>("Estado"));
-        precioTabla.setCellValueFactory(new PropertyValueFactory<Coche, Integer>("Precio"));
+
+        marcaTabla.setCellValueFactory(new PropertyValueFactory<>("Marca"));
+        modeloTabla.setCellValueFactory(new PropertyValueFactory<>("Modelo"));
+        puertaTabla.setCellValueFactory(new PropertyValueFactory<>("Puertas"));
+        combustibleTabla.setCellValueFactory(new PropertyValueFactory<>("Combustible"));
+        kilomTabla.setCellValueFactory(new PropertyValueFactory<>("Kilometraje"));
+
+        precioTabla.setCellValueFactory(new PropertyValueFactory<>("Precio"));
+        estadoTabla.setCellValueFactory(new PropertyValueFactory<>("Estado"));
 
         puertas.setOpacity(0);
         puerta3.setOpacity(0);

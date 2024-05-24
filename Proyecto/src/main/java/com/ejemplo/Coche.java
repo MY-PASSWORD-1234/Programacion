@@ -3,16 +3,16 @@ package com.ejemplo;
 public class Coche {
     private String Marca;
     private String Modelo;
-    private int Puertas;
+    private Integer Puertas;
     private String Combustible;
-    private int Kilometraje;
-    private int Precio;
+    private Integer Kilometraje;
+    private Integer Precio;
     private int CV;
     private int Año;
     private String Descripcion;
     private String Estado;
 
-    public Coche(String marca, String modelo, int puertas, String combustible, int kilometros, int precio,
+    public Coche(String marca, String modelo, Integer puertas, String combustible, Integer kilometros, Integer precio,
             String estado) {
         Marca = marca;
         Modelo = modelo;

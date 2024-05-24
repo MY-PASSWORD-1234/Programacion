@@ -75,33 +75,30 @@ public class CO_CrearCoche {
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Selecciona una foto");
-
         fileChooser.setInitialDirectory(new File("src/main/resources/com/ejemplo/img"));
-
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
         fileChooser.getExtensionFilters().add(extFilter);
 
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         File file = fileChooser.showOpenDialog(stage);
-        String rutaCompleta = foto;
-        String rutaParaEliminar = "/home/dam/Escritorio/Programacion/Proyecto";
 
-     
-        if (rutaCompleta.startsWith(rutaParaEliminar)) {
-    
-         rutaModificada = rutaCompleta.substring(rutaParaEliminar.length());
-       
-            if (rutaModificada.startsWith("/")) {
-                rutaModificada = rutaModificada.substring(1);
-            }
-            System.out.println("Ruta modificada: " + rutaModificada);
-        } else {
-            System.out.println("La ruta completa no contiene la parte a eliminar.");
-        }
         if (file != null) {
             foto = file.getAbsolutePath();
+            String rutaParaEliminar = "/home/dam/Escritorio/Programacion/Proyecto";
+            if (foto.startsWith(rutaParaEliminar)) {
+                rutaModificada = foto.substring(rutaParaEliminar.length());
+                if (rutaModificada.startsWith("/")) {
+                    rutaModificada = rutaModificada.substring(1);
+                }
+
+            } else {
+
+            }
+
             Image image = new Image(file.toURI().toString());
             ponerImagen.setImage(image);
+        } else {
+
         }
 
     }

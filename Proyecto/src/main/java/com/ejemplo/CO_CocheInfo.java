@@ -101,9 +101,30 @@ public class CO_CocheInfo {
                         st.setString(3, c.getMarca());
                         st.setString(4, c.getModelo());
                         st.executeUpdate();
+                        int idcoche=0;
+                        int precio =0;
+                        st = con.prepareStatement(
+                                "Select * from SuperCoches.Coches where Marca = ? and Modelo =?");
+                        st.setString(1, CO_BuscadorCoches.cocheSeleccionado.getMarca());
+                        st.setString(2, CO_BuscadorCoches.cocheSeleccionado.getModelo());
+                        ResultSet rs = st.executeQuery();
+                        while (rs.next()) {
+                            idcoche = rs.getInt("idCoches");
+                            precio = rs.getInt("Precio");
 
+                        }
+                        int idUsuario = CO_InicioSesion.cls.getId();
+                        st = con.prepareStatement(
+                            "INSERT INTO SuperCoches.Recibo (idCoche, idUsuario, Precio_Base, Iva, Cambio_Nombre, Precio_Final) VALUES (?,?,?,?,?,?)");
+                            st.setInt(1, idcoche);
+                            st.setInt(2, idUsuario);
+                            st.setInt(3,precio);
+                            st.setInt(4,Double.valueOf(iva).intValue());
+                            st.setInt(5,Double.valueOf(cambion).intValue());
+                            st.setInt(6,Double.valueOf(preciofin).intValue());
+                            st.executeUpdate();
                     } catch (Exception e) {
-                        // TODO: handle exception
+                        System.out.println(e.getMessage());
                     }
                 } else {
                     System.out.println("CANCEL");
@@ -198,6 +219,7 @@ public class CO_CocheInfo {
                 background = new Background(backgroundFill);
                 estadoBoton.setBackground(background);
                 comprarBoton.setOpacity(1.0);
+                comprarBoton.setDisable(false);
             }
 
             if (estado.equals("Reservado")) {
@@ -214,6 +236,8 @@ public class CO_CocheInfo {
                 }
                 if (CO_InicioSesion.cls.getDni().equals(dni)) {
                     comprarBoton.setOpacity(1.0);
+                    comprarBoton.setDisable(false);
+                   
 
                 }
 
