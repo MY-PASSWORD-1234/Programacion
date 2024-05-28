@@ -125,7 +125,7 @@ public class CO_BuscadorCoches {
         ObservableList<Coche> coches = FXCollections.observableArrayList();
         try {
             StringBuilder sql = new StringBuilder(
-                    "SELECT Marca, Modelo, Puertas, Combustible, Kilometraje, Precio, Estado FROM SuperCoches.Coches WHERE 1=1");
+                    "SELECT idCoches, Marca, Modelo, Puertas, Combustible, Kilometraje, Precio, Estado FROM SuperCoches.Coches WHERE 1=1");
             List<Object> parameters = new ArrayList<>();
 
             if (puerta3.isSelected() || puerta5.isSelected()) {
@@ -195,8 +195,9 @@ public class CO_BuscadorCoches {
                 Integer resultKilomet = rs.getInt("Kilometraje");
                 Integer resultPrecio = rs.getInt("Precio");
                 String resultEstado = rs.getString("Estado");
+                int id = rs.getInt("idCoches");
 
-                Coche c = new Coche(resultMarca, resultModelo, resultPuerta, resultComb, resultKilomet, resultPrecio,
+                Coche c = new Coche(id,resultMarca, resultModelo, resultPuerta, resultComb, resultKilomet, resultPrecio,
                         resultEstado);
                 coches.add(c);
             }

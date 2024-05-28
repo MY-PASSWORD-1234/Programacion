@@ -1,6 +1,7 @@
 package com.ejemplo;
 
 public class Coche {
+    private int id;
     private String Marca;
     private String Modelo;
     private Integer Puertas;
@@ -12,8 +13,9 @@ public class Coche {
     private String Descripcion;
     private String Estado;
 
-    public Coche(String marca, String modelo, Integer puertas, String combustible, Integer kilometros, Integer precio,
+    public Coche(int id ,String marca, String modelo, Integer puertas, String combustible, Integer kilometros, Integer precio,
             String estado) {
+                this.id = id;
         Marca = marca;
         Modelo = modelo;
         Puertas = puertas;
@@ -53,6 +55,18 @@ public class Coche {
         Año = año;
         Descripcion = descripcion;
         Estado = estado;
+    }
+
+
+
+    public int getId() {
+        return id;
+    }
+
+
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 

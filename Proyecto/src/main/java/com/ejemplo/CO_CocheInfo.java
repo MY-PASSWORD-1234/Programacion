@@ -80,11 +80,11 @@ public class CO_CocheInfo {
             if (result.isPresent() && result.get() == ButtonType.OK) {
 
                 PreparedStatement st = con.prepareStatement(
-                        "UPDATE SuperCoches.Coches set Estado = ? where Modelo = ? and Marca = ?");
+                        "UPDATE SuperCoches.Coches set Estado = ? , idUsuario = NULL where idCoches = ?");
 
                 st.setString(1, "Disponible");
-                st.setString(2, CO_BuscadorCoches.cocheSeleccionado.getModelo());
-                st.setString(3, CO_BuscadorCoches.cocheSeleccionado.getMarca());
+                st.setInt(2, CO_BuscadorCoches.cocheSeleccionado.getId());
+            
                 st.executeUpdate();
                 App.setRoot("BuscadorCoches");
                 App.scene.getWindow().setWidth(1121);
