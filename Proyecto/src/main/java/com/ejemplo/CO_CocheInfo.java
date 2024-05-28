@@ -26,6 +26,9 @@ import javafx.scene.paint.Color;
 public class CO_CocheInfo {
     private Connection con;
     private Coche c = null;
+
+    @FXML
+    private Button anular;
     @FXML
     private Button comprarBoton;
     @FXML
@@ -66,6 +69,37 @@ public class CO_CocheInfo {
     private TextField puertasMostrar;
 
     @FXML
+    void anularReserva(ActionEvent event) {
+        try {
+
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Anular");
+            alert.setHeaderText("Anular Tu Reserva");
+            alert.setContentText("¿Seguro que quieres continuar?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+
+                PreparedStatement st = con.prepareStatement(
+                        "UPDATE SuperCoches.Coches set Estado = ? where Modelo = ? and Marca = ?");
+
+                st.setString(1, "Disponible");
+                st.setString(2, CO_BuscadorCoches.cocheSeleccionado.getModelo());
+                st.setString(3, CO_BuscadorCoches.cocheSeleccionado.getMarca());
+                st.executeUpdate();
+                App.setRoot("BuscadorCoches");
+                App.scene.getWindow().setWidth(1121);
+                App.scene.getWindow().setHeight(560);
+             
+            } else {
+            
+            }
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    @FXML
     void comprarAcion(ActionEvent event) {
         String estado = "";
         double iva = c.getPrecio() * 0.21;
@@ -101,8 +135,8 @@ public class CO_CocheInfo {
                         st.setString(3, c.getMarca());
                         st.setString(4, c.getModelo());
                         st.executeUpdate();
-                        int idcoche=0;
-                        int precio =0;
+                        int idcoche = 0;
+                        int precio = 0;
                         st = con.prepareStatement(
                                 "Select * from SuperCoches.Coches where Marca = ? and Modelo =?");
                         st.setString(1, CO_BuscadorCoches.cocheSeleccionado.getMarca());
@@ -115,19 +149,22 @@ public class CO_CocheInfo {
                         }
                         int idUsuario = CO_InicioSesion.cls.getId();
                         st = con.prepareStatement(
-                            "INSERT INTO SuperCoches.Recibo (idCoche, idUsuario, Precio_Base, Iva, Cambio_Nombre, Precio_Final) VALUES (?,?,?,?,?,?)");
-                            st.setInt(1, idcoche);
-                            st.setInt(2, idUsuario);
-                            st.setInt(3,precio);
-                            st.setInt(4,Double.valueOf(iva).intValue());
-                            st.setInt(5,Double.valueOf(cambion).intValue());
-                            st.setInt(6,Double.valueOf(preciofin).intValue());
-                            st.executeUpdate();
+                                "INSERT INTO SuperCoches.Recibo (idCoche, idUsuario, Precio_Base, Iva, Cambio_Nombre, Precio_Final) VALUES (?,?,?,?,?,?)");
+                        st.setInt(1, idcoche);
+                        st.setInt(2, idUsuario);
+                        st.setInt(3, precio);
+                        st.setInt(4, Double.valueOf(iva).intValue());
+                        st.setInt(5, Double.valueOf(cambion).intValue());
+                        st.setInt(6, Double.valueOf(preciofin).intValue());
+                        st.executeUpdate();
+                        App.setRoot("BuscadorCoches");
+                        App.scene.getWindow().setWidth(1121);
+                        App.scene.getWindow().setHeight(560);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
                 } else {
-                    System.out.println("CANCEL");
+                   
                 }
 
             }
@@ -163,6 +200,9 @@ public class CO_CocheInfo {
                                 "Año: " + c.getAño() + "\n" +
                                 "Precio: " + c.getPrecio() + "€\n");
                         alert.showAndWait();
+                        App.setRoot("BuscadorCoches");
+                        App.scene.getWindow().setWidth(1121);
+                        App.scene.getWindow().setHeight(560);
                     }
                 } catch (Exception e) {
                     // TODO: handle exception
@@ -185,6 +225,7 @@ public class CO_CocheInfo {
     void initialize() {
         comprarBoton.setOpacity(0);
         con = CO_InicioSesion.getCon();
+        anular.setOpacity(0);
 
         try {
             String foto = "";
@@ -237,7 +278,8 @@ public class CO_CocheInfo {
                 if (CO_InicioSesion.cls.getDni().equals(dni)) {
                     comprarBoton.setOpacity(1.0);
                     comprarBoton.setDisable(false);
-                   
+                    anular.setDisable(false);
+                    anular.setOpacity(1.0);
 
                 }
 

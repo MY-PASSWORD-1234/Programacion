@@ -116,8 +116,10 @@ public class CO_BuscadorCoches {
     @FXML
     void cargarPerfilUsuario(ActionEvent event) throws IOException {
         App.setRoot("UsurioInfo");
+        App.scene.getWindow().setWidth(1078);
+        App.scene.getWindow().setHeight(570);
     }
-
+    
     @FXML
     void buscarLupa(ActionEvent event) {
         ObservableList<Coche> coches = FXCollections.observableArrayList();

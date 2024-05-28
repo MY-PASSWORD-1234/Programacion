@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="999.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ejemplo.CO_UsuarioInfo">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="1077.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ejemplo.CO_UsuarioInfo">
    <children>
       <ImageView fitHeight="548.0" fitWidth="349.0">
          <image>
@@ -22,20 +22,25 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <TableView fx:id="tablaEntera" layoutX="354.0" layoutY="99.0" prefHeight="443.0" prefWidth="640.0">
+      <TableView fx:id="tablaEntera" layoutX="354.0" layoutY="99.0" prefHeight="443.0" prefWidth="718.0">
          <columns>
-            <TableColumn fx:id="cocheTable" prefWidth="85.0" text="Coche" />
-            <TableColumn fx:id="preciobaseTable" prefWidth="107.0" text="Precio_Base" />
-            <TableColumn fx:id="ivaTable" prefWidth="84.0" text="Iva" />
-            <TableColumn fx:id="cambionomvreTable" prefWidth="130.0" text="Cambio_Nombre" />
-            <TableColumn fx:id="preciofinalTable" prefWidth="130.0" text="Precio_Final" />
-            <TableColumn fx:id="fechaTable" prefWidth="103.0" text="Fecha" />
+            <TableColumn fx:id="cocheTable" prefWidth="119.0" text="Coche" />
+            <TableColumn fx:id="preciobaseTable" prefWidth="122.0" text="Precio_Base" />
+            <TableColumn fx:id="ivaTable" prefWidth="83.0" text="Iva" />
+            <TableColumn fx:id="cambionomvreTable" prefWidth="131.0" text="Cambio_Nombre" />
+            <TableColumn fx:id="preciofinalTable" prefWidth="115.0" text="Precio_Final" />
+            <TableColumn fx:id="fechaTable" prefWidth="147.0" text="Fecha" />
          </columns>
       </TableView>
       <Label layoutX="384.0" layoutY="25.0" text="DNI" />
-      <TextField fx:id="dni" editable="false" layoutX="421.0" layoutY="21.0" />
+      <TextField fx:id="dni" disable="true" editable="false" layoutX="421.0" layoutY="21.0" />
       <Label layoutX="384.0" layoutY="55.0" text="NOMBRE" />
-      <TextField fx:id="nombre" editable="false" layoutX="448.0" layoutY="51.0" />
+      <TextField fx:id="nombre" disable="true" editable="false" layoutX="448.0" layoutY="51.0" />
       <Button layoutX="14.0" layoutY="13.0" mnemonicParsing="false" onAction="#volver" prefHeight="16.0" prefWidth="39.0" text="&lt;--" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="23.0" layoutY="82.0" prefHeight="44.0" prefWidth="315.0" text="Informacion Del Usuario" textFill="#dae413">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
